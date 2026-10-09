@@ -1,6 +1,9 @@
 import type { SkySceneConfig } from "@/components/sky/sky-presets";
 
-/** One sky per section, in scroll order. See the Environment system board on the design canvas. */
+/**
+ * One sky per section, in scroll order: a day above the clouds. When the background moves to
+ * video, each scene here becomes one clip and the sections stay as they are.
+ */
 export const scenes = {
   hero: {
     time: "morning",
@@ -12,5 +15,83 @@ export const scenes = {
     sunEl: 0.09,
     boat: { x: 54, y: 77, size: 150 },
     mobile: { horizon: 0.7, sunAz: 0.16, sunEl: 0.1, boat: { x: 70, y: 84, size: 92 } },
+  },
+  question: {
+    time: "morning",
+    horizon: 0.74,
+    cover: 0.5,
+    seaCover: 0.86,
+    sunAz: 0.18,
+    sunEl: 0.12,
+    boat: { x: 92, y: 92, size: 76 },
+    mobile: { boat: null },
+  },
+  code: { time: "noon", horizon: 0.9, cover: 0.52, seaCover: 0.86, boat: null },
+  aboard: {
+    time: "morning",
+    horizon: 0.6,
+    cover: 0.4,
+    seaCover: 0.84,
+    sunAz: -0.25,
+    sunEl: 0.14,
+    boat: null,
+  },
+  locks: {
+    time: "morning",
+    weather: "haze",
+    fog: 0.55,
+    horizon: 0.58,
+    cover: 0.78,
+    seaCover: 0.9,
+    sunAz: -0.2,
+    sunEl: 0.16,
+    boat: null,
+  },
+  captains: {
+    time: "golden",
+    horizon: 0.68,
+    cover: 0.4,
+    seaCover: 0.84,
+    sunAz: -0.38,
+    sunEl: 0.05,
+    boat: { x: 18, y: 84, size: 66 },
+    mobile: { boat: null },
+  },
+  fees: {
+    time: "golden",
+    horizon: 0.62,
+    cover: 0.5,
+    seaCover: 0.86,
+    sunAz: 0.32,
+    sunEl: 0.035,
+    boat: null,
+  },
+  storm: { time: "noon", weather: "storm", horizon: 0.62, sunAz: 0.3, sunEl: 0.3, boat: null },
+  lead: {
+    time: "dusk",
+    horizon: 0.66,
+    cover: 0.4,
+    seaCover: 0.84,
+    boat: { x: 86, y: 84, size: 104 },
+    mobile: { boat: null },
+  },
+  compare: {
+    time: "dusk",
+    horizon: 0.76,
+    cover: 0.35,
+    seaCover: 0.84,
+    sunAz: 0.45,
+    sunEl: 0.005,
+    boat: null,
+  },
+  night: {
+    time: "night",
+    horizon: 0.63,
+    cover: 0.3,
+    seaCover: 0.82,
+    sunAz: -0.42,
+    sunEl: 0.3,
+    boat: { x: 50, y: 82, size: 118 },
+    mobile: { boat: { x: 50, y: 86, size: 84 } },
   },
 } satisfies Record<string, SkySceneConfig>;

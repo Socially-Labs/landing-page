@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { SkyScene } from "@/components/sky/sky-scene";
 import { ButtonLink } from "@/components/ui/button-link";
+import { PhoneFrame } from "@/components/ui/phone-frame";
 import { HeroUpdates } from "./hero-updates";
 import { scenes } from "./scenes";
 import { ScrollCue } from "./scroll-cue";
@@ -24,11 +25,11 @@ export function Hero() {
             can never withdraw it.
           </p>
           <div className="mt-1 flex animate-rise flex-col gap-3 [animation-delay:240ms] sm:flex-row sm:items-center">
-            <ButtonLink href="#crew">
+            <ButtonLink href="#berth">
               Join as Crew
               <ArrowRight aria-hidden className="size-[18px]" />
             </ButtonLink>
-            <ButtonLink href="#captains" variant="glass">
+            <ButtonLink href="#lead" variant="glass">
               Apply as Captain
             </ButtonLink>
           </div>
@@ -38,7 +39,7 @@ export function Hero() {
         </div>
 
         <div className="relative hidden animate-rise justify-self-end [animation-delay:200ms] lg:block">
-          <div className="aspect-[390/844] h-[min(40.5rem,calc(100svh-15rem))] overflow-hidden rounded-[46px] border-7 border-tray bg-sky shadow-[0_44px_90px_rgb(24_43_67/0.3)]">
+          <PhoneFrame className="h-[min(40.5rem,calc(100svh-15rem))]">
             <Image
               src="/app/crew-home.webp"
               alt="Socially Crew Home showing a sample portfolio of $10,502.20 and three Captain vaults"
@@ -48,7 +49,7 @@ export function Hero() {
               loading="eager"
               className="size-full object-cover"
             />
-          </div>
+          </PhoneFrame>
           <p className="mt-3 text-center text-xs text-ink-soft">App preview · Sample data</p>
           <HeroUpdates />
         </div>
