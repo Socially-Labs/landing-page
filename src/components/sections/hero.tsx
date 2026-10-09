@@ -15,10 +15,6 @@ export function Hero() {
     <Section id="top" tone="deep" className="relative overflow-hidden">
       <div
         aria-hidden
-        className="absolute inset-0 chart-grid [mask-image:radial-gradient(ellipse_at_72%_42%,black,transparent_72%)]"
-      />
-      <div
-        aria-hidden
         className="absolute inset-0 bg-[radial-gradient(55%_55%_at_74%_40%,rgb(38_74_124/0.55),transparent_70%)]"
       />
       <div
