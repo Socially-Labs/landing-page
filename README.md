@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# socially-web
 
-## Getting Started
+The landing page for [Socially](../socially-apk): pick a Captain, join the Crew, keep your keys.
 
-First, run the development server:
+The page sits on a live sky rendered with WebGL: high clouds, a sea of clouds with open water
+in its gaps, the sun or moon, and a sailboat. Each section sets its own time of day and
+weather, and scrolling moves the camera forward. The design canvas with every scene, the
+palettes and the scroll timeline is the reference for new sections.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev          # http://localhost:3000
+npm run typecheck
+npm run lint
+npm run format       # Prettier, with Tailwind class sorting
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Concern   | Choice                                                                                 |
+| --------- | -------------------------------------------------------------------------------------- |
+| Framework | Next.js 16 (App Router), React 19, TypeScript                                          |
+| Styling   | Tailwind CSS 4. Brand tokens live in `src/app/globals.css`; the default palette is off |
+| Motion    | Motion (`motion/react`) for interaction, presence and scroll-linked values             |
+| Scrolling | Lenis, driven by Motion's frame loop                                                   |
+| Sky       | Plain WebGL, one fragment shader, no 3D library                                        |
+| Fonts     | Cormorant Garamond for display, Inter for UI, via `next/font`                          |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Where things are
 
-## Learn More
+```
+src/components/sky/        The sky: shader, presets, engine, provider, <SkyScene>, boat
+src/components/sections/   Page sections and scenes.ts (one sky per section)
+src/components/ui/         Shared controls
+src/app/globals.css        Design tokens and the glass, navy-plate and eyebrow utilities
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Adding a section
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Add its sky to `src/components/sections/scenes.ts` (time, weather, horizon, boat).
+2. Wrap the section in `<SkyScene scene={scenes.yourSection}>`. The sky eases to that scene
+   when the section crosses the middle of the viewport.
+3. Put text on glass or in the top third of the sky, and check it against the brightest frame.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Motion rules
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Entrances that matter for first paint use CSS (`animate-rise`), so they play before hydration.
+- Everything interactive or scroll-linked uses Motion.
+- `MotionConfig reducedMotion="user"` turns off transforms for visitors who ask for less motion;
+  the sky then holds still frames and Lenis is off.
