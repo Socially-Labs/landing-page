@@ -4,10 +4,11 @@ import { Reveal } from "./reveal";
 
 type SectionHeadingProps = {
   eyebrow: string;
+  /** Wrap the accent phrase in <em> to set it in brass italic. */
   title: ReactNode;
   lede?: ReactNode;
-  /** `sky` for navy text on light sections, `night` for light text on navy sections. */
-  tone?: "sky" | "night";
+  /** `dark` for navy sections, `light` for pearl ones. */
+  tone?: "dark" | "light";
   align?: "start" | "center";
   className?: string;
 };
@@ -16,36 +17,33 @@ export function SectionHeading({
   eyebrow,
   title,
   lede,
-  tone = "sky",
+  tone = "dark",
   align = "start",
   className,
 }: SectionHeadingProps) {
-  const night = tone === "night";
+  const dark = tone === "dark";
   return (
     <Reveal
       className={cn(
-        "flex flex-col gap-4",
-        night && "[text-shadow:0_1px_20px_rgb(7_23_44/0.5)]",
+        "flex flex-col gap-5",
         align === "center" && "items-center text-center",
         className,
       )}
     >
-      <p className={cn("eyebrow", night ? "text-on-navy-muted" : "text-steel-deep")}>{eyebrow}</p>
+      <p className={cn("flex items-center gap-3 eyebrow", dark ? "text-brass" : "text-brass-deep")}>
+        <span aria-hidden className="h-px w-8 bg-current opacity-60" />
+        {eyebrow}
+      </p>
       <h2
         className={cn(
-          "max-w-[20ch] font-display text-[clamp(2.5rem,4.6vw,4rem)] leading-[1.02] font-semibold",
-          night ? "text-on-navy" : "text-ink",
+          "max-w-[18ch] font-display text-[clamp(2.6rem,5vw,4.5rem)] leading-[0.98] font-semibold tracking-[-0.01em] [&_em]:font-medium [&_em]:italic",
+          dark ? "text-foam [&_em]:text-brass-light" : "text-ink [&_em]:text-brass-deep",
         )}
       >
         {title}
       </h2>
       {lede && (
-        <p
-          className={cn(
-            "max-w-[36rem] text-lg/relaxed",
-            night ? "text-on-navy-soft" : "text-ink-soft",
-          )}
-        >
+        <p className={cn("max-w-[34rem] text-lg/relaxed", dark ? "text-mist" : "text-ink-soft")}>
           {lede}
         </p>
       )}

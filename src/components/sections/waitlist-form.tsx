@@ -22,7 +22,7 @@ export function WaitlistForm() {
         role="status"
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mt-4 rounded-full px-6 py-4 text-on-navy glass-dark"
+        className="rounded-full border border-brass/40 bg-navy/70 px-6 py-4 text-foam"
       >
         {state.role === "captain"
           ? "Thanks. We’ll be in touch about Captain access."
@@ -34,17 +34,17 @@ export function WaitlistForm() {
   const error = state.status === "error" ? state.message : null;
 
   return (
-    <form action={action} className="mt-4 flex w-full max-w-xl flex-col gap-3 text-left">
+    <form action={action} className="flex w-full max-w-xl flex-col gap-3 text-left">
       <fieldset className="flex justify-center gap-2">
         <legend className="sr-only">I want to</legend>
         {roles.map((option) => (
           <label
             key={option.value}
             className={cn(
-              "flex min-h-11 cursor-pointer items-center rounded-full border px-4 text-sm font-semibold transition-colors has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-on-navy",
+              "flex min-h-11 cursor-pointer items-center rounded-full border px-5 text-sm font-semibold transition-colors has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-brass-light",
               role === option.value
-                ? "border-on-navy bg-on-navy text-ink"
-                : "border-on-navy/25 text-on-navy hover:bg-on-navy/10",
+                ? "border-brass bg-brass/15 text-brass-light"
+                : "border-foam/20 text-mist hover:border-foam/40",
             )}
           >
             <input
@@ -60,13 +60,10 @@ export function WaitlistForm() {
         ))}
       </fieldset>
 
-      <label
-        htmlFor="waitlist-email"
-        className="pl-5 text-[0.8125rem] font-medium text-on-navy-muted"
-      >
+      <label htmlFor="waitlist-email" className="sr-only">
         Email address
       </label>
-      <div className="flex flex-col gap-2 rounded-[28px] p-1.5 glass-dark sm:flex-row sm:rounded-full">
+      <div className="flex flex-col gap-2 rounded-[28px] border border-foam/15 bg-navy/70 p-1.5 backdrop-blur-xl sm:flex-row sm:rounded-full">
         <input
           id="waitlist-email"
           name="email"
@@ -76,12 +73,12 @@ export function WaitlistForm() {
           placeholder="you@example.com"
           aria-invalid={error ? true : undefined}
           aria-describedby="waitlist-message"
-          className="h-13 min-w-0 flex-1 rounded-full bg-transparent px-4 text-base text-on-navy placeholder:text-on-navy-muted/70 focus-visible:outline-2 focus-visible:outline-on-navy"
+          className="h-13 min-w-0 flex-1 rounded-full bg-transparent px-5 text-base text-foam placeholder:text-haze focus-visible:outline-2 focus-visible:outline-brass-light"
         />
         <button
           type="submit"
           disabled={pending}
-          className="h-13 rounded-full bg-on-navy px-6 font-semibold text-ink transition-opacity disabled:opacity-70"
+          className="h-13 rounded-full btn-brass px-7 font-semibold transition-opacity disabled:opacity-70"
         >
           {pending ? "Saving…" : role === "captain" ? "Apply as Captain" : "Reserve my berth"}
         </button>
@@ -89,9 +86,9 @@ export function WaitlistForm() {
       <p
         id="waitlist-message"
         aria-live="polite"
-        className={cn("pl-5 text-[0.8125rem]", error ? "text-coral-glow" : "text-on-navy-muted")}
+        className={cn("text-center text-[0.8125rem]", error ? "text-coral-glow" : "text-haze")}
       >
-        {error ?? "We’ll email you when the first vaults open."}
+        {error ?? "One email when the first vaults open. Nothing else."}
       </p>
     </form>
   );

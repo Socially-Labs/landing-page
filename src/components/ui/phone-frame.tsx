@@ -6,7 +6,7 @@ export function PhoneFrame({ className, children }: { className?: string; childr
   return (
     <div
       className={cn(
-        "relative aspect-[390/844] overflow-hidden rounded-[46px] border-7 border-tray bg-sky shadow-[0_44px_90px_rgb(24_43_67/0.3)]",
+        "relative aspect-[390/844] overflow-hidden rounded-[44px] border-[7px] border-[#0b1626] bg-navy shadow-[0_0_0_1px_rgb(201_166_107/0.28),0_40px_90px_rgb(0_0_0/0.45)]",
         className,
       )}
     >

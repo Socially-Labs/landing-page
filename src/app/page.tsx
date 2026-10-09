@@ -1,37 +1,37 @@
-import { Berth } from "@/components/sections/berth";
-import { CaptainsLog } from "@/components/sections/captains-log";
-import { Captains } from "@/components/sections/captains";
-import { ComeAboard } from "@/components/sections/come-aboard";
-import { Compare } from "@/components/sections/compare";
+import { CaptainProfile } from "@/components/sections/captain-profile";
+import { CaptainsShare } from "@/components/sections/captains-share";
+import { Community } from "@/components/sections/community";
+import { Comparison } from "@/components/sections/comparison";
 import { Faq } from "@/components/sections/faq";
-import { Fees } from "@/components/sections/fees";
+import { FinalCta } from "@/components/sections/final-cta";
+import { ForCaptains } from "@/components/sections/for-captains";
 import { Hero } from "@/components/sections/hero";
-import { Lead } from "@/components/sections/lead";
-import { Question } from "@/components/sections/question";
-import { SevenLocks } from "@/components/sections/seven-locks";
-import { Storm } from "@/components/sections/storm";
+import { HowItWorks } from "@/components/sections/how-it-works";
+import { Stats } from "@/components/sections/stats";
 import { TheCode } from "@/components/sections/the-code";
-import { SiteNav } from "@/components/site-nav";
+import { TopCaptains } from "@/components/sections/top-captains";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 
 export default function Home() {
   return (
     <>
-      <SiteNav />
+      <SiteHeader />
       <main>
         <Hero />
-        <Question />
+        <Stats />
+        <HowItWorks />
         <TheCode />
-        <ComeAboard />
-        <SevenLocks />
-        <Captains />
-        <CaptainsLog />
-        <Fees />
-        <Storm />
-        <Lead />
-        <Compare />
+        <TopCaptains />
+        <CaptainProfile />
+        <CaptainsShare />
+        <ForCaptains />
+        <Comparison />
+        <Community />
         <Faq />
-        <Berth />
+        <FinalCta />
       </main>
+      <SiteFooter />
     </>
   );
 }

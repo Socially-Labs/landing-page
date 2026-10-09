@@ -1,11 +1,14 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
 
-type SectionProps = ComponentPropsWithoutRef<"section"> & {
-  /** `dark` gives the section a navy band for light text. */
-  tone?: "light" | "dark";
+const tones = {
+  deep: "bg-deep text-foam",
+  abyss: "bg-abyss text-foam",
+  pearl: "bg-pearl text-ink",
 };
 
-export function Section({ tone = "light", className, ...props }: SectionProps) {
-  return <section className={cn(tone === "dark" && "bg-deep", className)} {...props} />;
+type SectionProps = ComponentPropsWithoutRef<"section"> & { tone?: keyof typeof tones };
+
+export function Section({ tone = "deep", className, ...props }: SectionProps) {
+  return <section className={cn(tones[tone], className)} {...props} />;
 }

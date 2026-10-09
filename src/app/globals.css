@@ -1,91 +1,104 @@
 @import "tailwindcss";
 
 /*
- * Socially design tokens, taken from the Expo app (socially-apk/src/constants/theme).
- * The default Tailwind palette is switched off so every colour on the site is a brand colour.
+ * Socially design tokens. Navy, pearl, mint and coral come from the Expo app
+ * (socially-apk/src/constants/theme); brass comes from the helm and compass in the app's art.
+ * The default Tailwind palette is off, so every colour on the site is a brand colour.
  */
 @theme {
   --color-*: initial;
   --color-white: #ffffff;
   --color-black: #000000;
 
-  /* The world: pale sky and pearl surfaces */
-  --color-sky: #e4edf5;
+  /* The night sea: premium ground */
+  --color-abyss: #040c18;
+  --color-deep: #07172c;
+  --color-navy: #0c2039;
+  --color-navy-2: #12294a;
+  --color-ink: #182b43;
+  --color-ink-soft: #2a3c55;
+
+  /* Daylight surfaces from the app */
   --color-pearl: #f5f7fb;
+  --color-sky: #e4edf5;
   --color-tray: #f9fbfd;
   --color-line: #e3eaf1;
-  --color-wall: #edf1f6;
 
-  /* Ink: navy text, navy plates and their secondary tones */
-  --color-ink: #182b43;
-  --color-ink-soft: #1f3352;
-  --color-deep: #07172c;
-  --color-deep-2: #10243b;
-  --color-muted: #64758b;
+  /* Text on navy */
+  --color-foam: #f8fbff;
+  --color-mist: #b8cadc;
+  --color-haze: #8a9cb3;
+
+  /* Brass */
+  --color-brass: #c9a66b;
+  --color-brass-light: #e8cf9c;
+  --color-brass-deep: #8f6d3b;
+
   --color-steel: #45698c;
-  --color-steel-tint: #e6eff8;
-  --color-steel-deep: #2a4770;
-  /* Primary button and active navigation gradient */
-  --color-helm: #344c6c;
-  --color-helm-deep: #1b304c;
-  --color-on-navy: #f8fbff;
-  --color-on-navy-muted: #b8cadc;
-  --color-on-navy-soft: #dce5ef;
+  --color-muted: #64758b;
 
   /* Signals: mint only for gains, coral only for losses */
   --color-mint: #16805e;
   --color-mint-tint: #e3f5ee;
   --color-mint-glow: #72dfa7;
-  --color-mint-deep: #0e5e45;
-  --color-chart: #78b7ff;
   --color-coral: #af4854;
   --color-coral-tint: #fbedef;
   --color-coral-glow: #ff9ea9;
-  --color-coral-deep: #8a2f3a;
-  --color-amber: #926536;
-  --color-amber-tint: #f5ede1;
+  --color-chart: #78b7ff;
 
-  /* From the artwork; insignia and threads only */
-  --color-brass: #b8935a;
-
-  --radius-control: 18px;
-  --radius-card: 24px;
-  --radius-sheet: 36px;
+  --radius-card: 22px;
+  --radius-panel: 32px;
 
   --shadow-soft: 0 12px 34px rgb(84 107 146 / 0.12);
-  --shadow-lift: 0 20px 56px rgb(37 60 96 / 0.18);
-  --shadow-navy: 0 30px 70px rgb(7 23 44 / 0.35);
+  --shadow-lift: 0 24px 60px rgb(24 43 67 / 0.16);
+  --shadow-night: 0 40px 100px rgb(0 0 0 / 0.45);
 
-  --tracking-eyebrow: 0.16em;
-
-  /* Close to the app's rise spring (damping 28, stiffness 240, mass 0.9), which barely overshoots */
+  /* Close to the app's rise spring (damping 28, stiffness 240, mass 0.9) */
   --ease-rise: cubic-bezier(0.2, 0.9, 0.25, 1);
-  --ease-tide: cubic-bezier(0.45, 0, 0.55, 1);
 
-  --animate-rise: rise 720ms var(--ease-rise) both;
+  --animate-rise: rise 760ms var(--ease-rise) both;
+  --animate-marquee: marquee 48s linear infinite;
+  --animate-turn: turn 160s linear infinite;
+  --animate-pulse-dot: pulse-dot 2.4s ease-in-out infinite;
 
   @keyframes rise {
     from {
       opacity: 0;
-      transform: translateY(36px);
+      transform: translateY(32px);
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes turn {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes pulse-dot {
+    50% {
+      opacity: 0.35;
     }
   }
 }
 
 @theme inline {
   --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-caps: var(--font-cormorant-sc), "Cormorant SC", Georgia, serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   html {
-    color-scheme: light;
-    background: var(--color-pearl);
+    color-scheme: dark;
+    background: var(--color-abyss);
   }
 
   body {
-    background: var(--color-pearl);
-    color: var(--color-ink);
+    background: var(--color-deep);
+    color: var(--color-foam);
     font-family: var(--font-sans);
     font-kerning: normal;
     -webkit-font-smoothing: antialiased;
@@ -98,57 +111,59 @@
   }
 
   ::selection {
-    background: #d5e3f6;
-    color: var(--color-ink);
+    background: rgb(201 166 107 / 0.35);
+    color: var(--color-white);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-steel);
+    outline: 2px solid var(--color-brass-light);
     outline-offset: 3px;
   }
-}
 
-/* Frosted glass, as on the app's cards and sheets */
-@utility glass {
-  background: rgb(255 255 255 / 0.6);
-  border: 1px solid rgb(255 255 255 / 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-
-  @media (prefers-reduced-transparency: reduce) {
-    background: var(--color-tray);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+    }
   }
 }
 
-/* Dark glass for storm, dusk and night skies */
-@utility glass-dark {
-  background: rgb(10 24 42 / 0.55);
-  border: 1px solid rgb(213 229 245 / 0.2);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-
-  @media (prefers-reduced-transparency: reduce) {
-    background: var(--color-deep);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-}
-
-/* The one navy card per view */
-@utility navy-plate {
-  background: linear-gradient(160deg, #10243b, #07172c 58%, #10263e);
-  border: 1px solid #2a4366;
-  color: var(--color-on-navy);
-  box-shadow: var(--shadow-navy);
-}
-
-/* Small caps line above headings: one line only, tracked */
+/* Small engraved capitals for labels, as on a sea chart */
 @utility eyebrow {
-  font-size: 0.75rem;
+  font-family: var(--font-caps);
   font-weight: 600;
+  font-size: 1rem;
   line-height: 1.2;
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+/* Primary call to action: polished brass */
+@utility btn-brass {
+  background-image: linear-gradient(180deg, #eed6a4 0%, #c9a66b 55%, #a9854d 100%);
+  color: var(--color-deep);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    inset 0 -1px 0 rgb(0 0 0 / 0.12),
+    0 12px 32px rgb(201 166 107 / 0.25);
+}
+
+/* Raised navy panel with a faint top light */
+@utility panel-night {
+  background: linear-gradient(180deg, rgb(20 44 78 / 0.72), rgb(10 28 52 / 0.72));
+  border: 1px solid rgb(184 202 220 / 0.12);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    var(--shadow-night);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* Latitude and longitude lines, very faint */
+@utility chart-grid {
+  background-image:
+    linear-gradient(to right, rgb(184 202 220 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(184 202 220 / 0.05) 1px, transparent 1px);
+  background-size: 96px 96px;
 }

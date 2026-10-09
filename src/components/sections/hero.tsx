@@ -1,10 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { Section } from "@/components/ui/section";
 import { ButtonLink } from "@/components/ui/button-link";
-import { PhoneFrame } from "@/components/ui/phone-frame";
-import { HeroUpdates } from "./hero-updates";
-import { ScrollCue } from "./scroll-cue";
+import { Container } from "@/components/ui/container";
+import { Section } from "@/components/ui/section";
+import { captains } from "@/lib/sample-data";
+import { HeroVisual } from "./hero-visual";
 
 /*
  * The entrance uses CSS animation rather than Motion so it plays on first paint, before
@@ -12,48 +12,66 @@ import { ScrollCue } from "./scroll-cue";
  */
 export function Hero() {
   return (
-    <Section id="top" className="relative min-h-svh">
-      <div className="mx-auto grid min-h-svh max-w-[1440px] gap-12 px-6 pt-32 pb-32 md:px-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:pt-40 xl:px-24">
-        <div className="flex max-w-[680px] flex-col gap-6">
-          <p className="animate-rise eyebrow text-steel-deep">Join the voyage</p>
-          <h1 className="animate-rise font-display text-[clamp(3rem,6.2vw,5.5rem)] leading-[0.96] font-semibold tracking-[-0.005em] [animation-delay:80ms]">
-            Pick a Captain. Join the Crew. Keep your keys.
-          </h1>
-          <p className="max-w-[31rem] animate-rise text-lg/relaxed text-ink-soft [animation-delay:160ms] md:text-[1.1875rem]">
-            Back skilled traders on Solana. They trade your vault inside on-chain rules, and they
-            can never withdraw it.
+    <Section id="top" tone="deep" className="relative overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 chart-grid [mask-image:radial-gradient(ellipse_at_72%_42%,black,transparent_72%)]"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(55%_55%_at_74%_40%,rgb(38_74_124/0.55),transparent_70%)]"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-transparent to-abyss"
+      />
+
+      <Container className="relative grid min-h-svh items-center gap-16 pt-36 pb-24 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:pt-28">
+        <div className="flex flex-col gap-8">
+          <p className="flex animate-rise items-center gap-3 eyebrow text-brass">
+            <span aria-hidden className="h-px w-10 bg-brass/60" />
+            Social trading on Solana
           </p>
-          <div className="mt-1 flex animate-rise flex-col gap-3 [animation-delay:240ms] sm:flex-row sm:items-center">
-            <ButtonLink href="#berth">
-              Join as Crew
+          <h1 className="animate-rise font-display text-[clamp(3.4rem,7.2vw,7rem)] leading-[0.92] font-semibold tracking-[-0.015em] [animation-delay:80ms]">
+            Pick a Captain.
+            <br />
+            Join the Crew.
+            <br />
+            <em className="font-medium text-brass-light">Keep your keys.</em>
+          </h1>
+          <p className="max-w-[30rem] animate-rise text-lg/relaxed text-mist [animation-delay:160ms] md:text-xl/relaxed">
+            Put money in a vault run by a proven trader. They can trade it. They can never take it.
+          </p>
+          <div className="flex animate-rise flex-col gap-3 [animation-delay:240ms] sm:flex-row">
+            <ButtonLink href="#join">
+              Join the waitlist
               <ArrowRight aria-hidden className="size-[18px]" />
             </ButtonLink>
-            <ButtonLink href="#lead" variant="glass">
-              Apply as Captain
+            <ButtonLink href="#captain" variant="ghost">
+              Become a Captain
             </ButtonLink>
           </div>
-          <p className="animate-rise text-sm text-ink-soft [animation-delay:320ms]">
-            No seed phrase. Sign in with email or Google.
-          </p>
+          <div className="flex animate-rise items-center gap-4 [animation-delay:320ms]">
+            <div className="flex">
+              {captains.slice(0, 4).map((captain, index) => (
+                <Image
+                  key={captain.id}
+                  src={captain.portrait}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className={`size-10 rounded-full object-cover ring-2 ring-deep ${index ? "-ml-3" : ""}`}
+                />
+              ))}
+            </div>
+            <p className="text-[0.9375rem] text-mist">
+              <b className="font-semibold text-foam">5,420</b> people already on the waitlist
+            </p>
+          </div>
         </div>
 
-        <div className="relative hidden animate-rise justify-self-end [animation-delay:200ms] lg:block">
-          <PhoneFrame className="h-[min(40.5rem,calc(100svh-15rem))]">
-            <Image
-              src="/app/crew-home.webp"
-              alt="Socially Crew Home showing a sample portfolio of $10,502.20 and three Captain vaults"
-              width={780}
-              height={1688}
-              sizes="300px"
-              loading="eager"
-              className="size-full object-cover"
-            />
-          </PhoneFrame>
-          <p className="mt-3 text-center text-xs text-ink-soft">App preview · Sample data</p>
-          <HeroUpdates />
-        </div>
-      </div>
-      <ScrollCue />
+        <HeroVisual />
+      </Container>
     </Section>
   );
 }
