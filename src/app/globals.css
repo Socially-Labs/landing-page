@@ -1,26 +1,132 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Socially design tokens, taken from the Expo app (socially-apk/src/constants/theme).
+ * The default Tailwind palette is switched off so every colour on the site is a brand colour.
+ */
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* The world: pale sky and pearl surfaces */
+  --color-sky: #e4edf5;
+  --color-pearl: #f5f7fb;
+  --color-tray: #f9fbfd;
+  --color-line: #e3eaf1;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Ink: navy text, navy plates and their secondary tones */
+  --color-ink: #182b43;
+  --color-ink-soft: #1f3352;
+  --color-deep: #07172c;
+  --color-deep-2: #10243b;
+  --color-muted: #64758b;
+  --color-steel: #45698c;
+  --color-steel-tint: #e6eff8;
+  --color-on-navy: #f8fbff;
+  --color-on-navy-muted: #b8cadc;
+
+  /* Signals: mint only for gains, coral only for losses */
+  --color-mint: #16805e;
+  --color-mint-tint: #e3f5ee;
+  --color-mint-glow: #72dfa7;
+  --color-chart: #78b7ff;
+  --color-coral: #af4854;
+  --color-coral-tint: #fbedef;
+  --color-coral-glow: #ff9ea9;
+  --color-amber: #926536;
+  --color-amber-tint: #f5ede1;
+
+  /* From the artwork; insignia and threads only */
+  --color-brass: #b8935a;
+
+  --radius-control: 18px;
+  --radius-card: 24px;
+  --radius-sheet: 36px;
+
+  --shadow-soft: 0 12px 34px rgb(84 107 146 / 0.12);
+  --shadow-lift: 0 20px 56px rgb(37 60 96 / 0.18);
+  --shadow-navy: 0 30px 70px rgb(7 23 44 / 0.35);
+
+  --tracking-eyebrow: 0.16em;
+
+  /* Close to the app's rise spring (damping 28, stiffness 240, mass 0.9), which barely overshoots */
+  --ease-rise: cubic-bezier(0.2, 0.9, 0.25, 1);
+  --ease-tide: cubic-bezier(0.45, 0, 0.55, 1);
+
+  --animate-rise: rise 720ms var(--ease-rise) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(36px);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    background: var(--color-pearl);
+  }
+
+  body {
+    background: var(--color-pearl);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-kerning: normal;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: #d5e3f6;
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-steel);
+    outline-offset: 3px;
+  }
+}
+
+/* Frosted glass over the sky, as on the app's cards and sheets */
+@utility glass {
+  background: rgb(255 255 255 / 0.6);
+  border: 1px solid rgb(255 255 255 / 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  @media (prefers-reduced-transparency: reduce) {
+    background: var(--color-tray);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* The one navy card per view */
+@utility navy-plate {
+  background: linear-gradient(160deg, #10243b, #07172c 58%, #10263e);
+  border: 1px solid #2a4366;
+  color: var(--color-on-navy);
+  box-shadow: var(--shadow-navy);
+}
+
+/* Small caps line above headings: one line only, tracked */
+@utility eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
 }
