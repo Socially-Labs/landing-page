@@ -21,27 +21,28 @@ const benefits = [
 
 const ranks: Rank[] = ["New Captain", "Proven Captain", "Admiral"];
 
+/** The Captain pitch over the app's daylight helm painting, washed out to white on the left. */
 export function ForCaptains() {
   return (
-    <Section id="captain" tone="abyss" className="relative overflow-hidden">
+    <Section id="captain" tone="pearl" className="relative overflow-hidden">
       <Image
         src="/art/captain-helm.webp"
         alt=""
         fill
         sizes="100vw"
-        className="object-cover object-[78%_center]"
+        className="object-cover object-[80%_center]"
       />
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(90deg,rgb(4_12_24/0.97)_0%,rgb(4_12_24/0.92)_40%,rgb(4_12_24/0.4)_72%,rgb(4_12_24/0.6)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(90deg,rgb(245_247_251/0.98)_0%,rgb(245_247_251/0.94)_42%,rgb(245_247_251/0.35)_72%,rgb(245_247_251/0.05)_100%)]"
       />
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(180deg,rgb(4_12_24/0.7)_0%,transparent_22%,transparent_78%,rgb(4_12_24/0.95)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgb(245_247_251/0.9)_0%,transparent_18%,transparent_82%,rgb(245_247_251/0.95)_100%)]"
       />
 
-      <Container className="relative py-28 md:py-44">
-        <div className="flex max-w-[40rem] flex-col gap-12">
+      <Container className="relative py-24 md:py-36">
+        <div className="flex max-w-[38rem] flex-col gap-10">
           <SectionHeading
             eyebrow="For traders"
             title={
@@ -52,33 +53,33 @@ export function ForCaptains() {
             lede="Trade for a Crew and keep 80% of the Captain’s share every time your vault reaches a new high."
           />
 
-          <div className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
+          <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
             {benefits.map(({ Icon, title, body }, index) => (
               <Reveal key={title} delay={index * 0.06} className="flex gap-4">
                 <Icon
                   aria-hidden
-                  className="mt-0.5 size-6 flex-none text-brass"
-                  strokeWidth={1.5}
+                  className="mt-0.5 size-5.5 flex-none text-brass-deep"
+                  strokeWidth={1.6}
                 />
                 <div className="flex flex-col gap-1">
-                  <span className="font-semibold">{title}</span>
-                  <span className="text-[0.9375rem] text-mist">{body}</span>
+                  <span className="font-semibold text-ink">{title}</span>
+                  <span className="text-[0.9375rem] text-ink-soft">{body}</span>
                 </div>
               </Reveal>
             ))}
           </div>
 
-          <Reveal className="flex flex-col gap-4">
-            <span className="eyebrow text-brass">Rise through the ranks</span>
-            <ol className="flex flex-wrap items-center gap-3">
+          <Reveal className="flex flex-col gap-3">
+            <span className="eyebrow text-brass-deep">Rise through the ranks</span>
+            <ol className="flex flex-wrap items-center gap-2.5">
               {ranks.map((rank, index) => (
-                <li key={rank} className="flex items-center gap-3">
-                  <span className="flex items-center gap-2.5 rounded-full border border-brass/30 bg-abyss/60 py-1.5 pr-4 pl-1.5 text-sm">
+                <li key={rank} className="flex items-center gap-2.5">
+                  <span className="flex items-center gap-2 rounded-full bg-white/90 py-1 pr-3.5 pl-1 text-sm text-ink ring-1 ring-brass/35">
                     <Insignia rank={rank} className="size-7 text-xs" />
                     {rank}
                   </span>
                   {index < ranks.length - 1 && (
-                    <ArrowRight aria-hidden className="size-4 text-brass/60" />
+                    <ArrowRight aria-hidden className="size-4 text-brass" />
                   )}
                 </li>
               ))}
@@ -86,8 +87,10 @@ export function ForCaptains() {
           </Reveal>
 
           <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-center">
-            <ButtonLink href="#join">Apply to captain</ButtonLink>
-            <span className="text-sm text-mist">
+            <ButtonLink href="#join" size="md">
+              Apply to captain
+            </ButtonLink>
+            <span className="text-sm text-ink-soft">
               We review every application before a vault opens.
             </span>
           </Reveal>

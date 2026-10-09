@@ -43,11 +43,10 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <Section id="faq" tone="pearl" className="py-28 md:py-40">
-      <Container className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-24">
+    <Section id="faq" className="py-24 md:py-32">
+      <Container className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
         <div className="flex flex-col gap-8">
           <SectionHeading
-            tone="light"
             eyebrow="Questions"
             title={
               <>
@@ -77,7 +76,7 @@ export function Faq() {
                     aria-expanded={expanded}
                     aria-controls={`faq-answer-${index}`}
                     onClick={() => setOpen(expanded ? null : index)}
-                    className="flex min-h-18 w-full items-center justify-between gap-6 py-5 text-left font-display text-2xl font-semibold text-ink"
+                    className="flex min-h-18 w-full items-center justify-between gap-6 py-5 text-left font-display text-[1.375rem] text-ink"
                   >
                     {item.q}
                     <motion.span

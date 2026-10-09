@@ -16,11 +16,11 @@ const tabs = ["Performance", "Holdings", "Trades", "Updates"] as const;
 type Tab = (typeof tabs)[number];
 
 const profileStats = [
-  { value: "+42.8%", label: "Return, 90 days", tone: "text-mint-glow" },
-  { value: "−12.8%", label: "Worst drop", tone: "text-coral-glow" },
-  { value: "$482K", label: "In vault", tone: "text-foam" },
-  { value: "124", label: "Crew", tone: "text-foam" },
-  { value: "10 of 14", label: "Months in profit", tone: "text-foam" },
+  { value: "+42.8%", label: "Return, 90 days", tone: "text-mint" },
+  { value: "−12.8%", label: "Worst drop", tone: "text-coral" },
+  { value: "$482K", label: "In vault", tone: "text-ink" },
+  { value: "124", label: "Crew", tone: "text-ink" },
+  { value: "10 of 14", label: "Months in profit", tone: "text-ink" },
 ];
 
 const trades = [
@@ -67,6 +67,7 @@ function PerformanceChart() {
   const line = values
     .map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`)
     .join(" ");
+  const axis = ["90 days ago", "60 days ago", "30 days ago", "Today"];
 
   return (
     <svg
@@ -77,34 +78,28 @@ function PerformanceChart() {
     >
       <defs>
         <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#72DFA7" stopOpacity="0.28" />
-          <stop offset="1" stopColor="#72DFA7" stopOpacity="0" />
+          <stop offset="0" stopColor="#16805E" stopOpacity="0.16" />
+          <stop offset="1" stopColor="#16805E" stopOpacity="0" />
         </linearGradient>
       </defs>
       {[0, 20, 40].map((tick) => (
         <g key={tick}>
-          <line
-            x1={pad.left}
-            x2={W - pad.right}
-            y1={y(tick)}
-            y2={y(tick)}
-            stroke="rgb(184 202 220 / 0.12)"
-          />
-          <text x={pad.left - 10} y={y(tick) + 4} textAnchor="end" fontSize="11" fill="#8A9CB3">
+          <line x1={pad.left} x2={W - pad.right} y1={y(tick)} y2={y(tick)} stroke="#E3EAF1" />
+          <text x={pad.left - 10} y={y(tick) + 4} textAnchor="end" fontSize="11" fill="#64758B">
             {tick > 0 ? `+${tick}%` : "0%"}
           </text>
         </g>
       ))}
-      {["90 days ago", "60", "30", "Today"].map((label, i) => (
+      {axis.map((label, i) => (
         <text
           key={label}
           x={pad.left + (i / 3) * (W - pad.left - pad.right)}
           y={H - 6}
           textAnchor={i === 0 ? "start" : i === 3 ? "end" : "middle"}
           fontSize="11"
-          fill="#8A9CB3"
+          fill="#64758B"
         >
-          {i === 1 || i === 2 ? `${label} days ago` : label}
+          {label}
         </text>
       ))}
       <path
@@ -114,8 +109,8 @@ function PerformanceChart() {
       <motion.path
         d={line}
         fill="none"
-        stroke="#72DFA7"
-        strokeWidth="2.2"
+        stroke="#16805E"
+        strokeWidth="2"
         strokeLinejoin="round"
         initial={{ pathLength: 0 }}
         whileInView={{ pathLength: 1 }}
@@ -126,9 +121,9 @@ function PerformanceChart() {
         cx={x(values.length - 1)}
         cy={y(values[values.length - 1])}
         r="5"
-        fill="#07172C"
-        stroke="#72DFA7"
-        strokeWidth="2.2"
+        fill="#FFFFFF"
+        stroke="#16805E"
+        strokeWidth="2"
       />
     </svg>
   );
@@ -139,12 +134,12 @@ function TabPanel({ tab }: { tab: Tab }) {
     return (
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
         <PerformanceChart />
-        <div className="flex flex-col gap-4">
-          <span className="eyebrow text-brass">Latest update</span>
-          <blockquote className="font-display text-2xl leading-snug font-medium text-foam italic">
+        <div className="flex flex-col gap-3">
+          <span className="eyebrow text-brass-deep">Latest update</span>
+          <blockquote className="font-display text-[1.375rem] leading-snug text-ink italic">
             “{updates[0].text}”
           </blockquote>
-          <span className="text-sm text-haze">Atlas · {updates[0].when}</span>
+          <span className="text-sm text-muted">Atlas · {updates[0].when}</span>
         </div>
       </div>
     );
@@ -158,16 +153,16 @@ function TabPanel({ tab }: { tab: Tab }) {
             className="grid grid-cols-[6rem_minmax(0,1fr)_3.5rem] items-center gap-4"
           >
             <span className="flex flex-col">
-              <b className="font-semibold">{holding.asset}</b>
-              <span className="text-xs text-haze">{holding.name}</span>
+              <b className="font-semibold text-ink">{holding.asset}</b>
+              <span className="text-xs text-muted">{holding.name}</span>
             </span>
-            <span className="h-2 overflow-hidden rounded-full bg-foam/8">
+            <span className="h-2 overflow-hidden rounded-full bg-ice">
               <span
                 className="block h-full rounded-full bg-brass"
                 style={{ width: `${holding.weight}%` }}
               />
             </span>
-            <span className="text-right tabular-nums">{holding.weight}%</span>
+            <span className="text-right text-ink tabular-nums">{holding.weight}%</span>
           </li>
         ))}
       </ul>
@@ -179,16 +174,16 @@ function TabPanel({ tab }: { tab: Tab }) {
         {trades.map((trade) => (
           <li
             key={`${trade.asset}-${trade.when}`}
-            className="grid grid-cols-[minmax(0,1fr)_auto_7rem] items-center gap-4 border-b border-foam/10 py-3.5 last:border-b-0"
+            className="grid grid-cols-[minmax(0,1fr)_auto_7rem] items-center gap-4 border-b border-line py-3.5 last:border-b-0"
           >
             <span>
-              <span className={trade.side === "Bought" ? "text-mint-glow" : "text-coral-glow"}>
+              <span className={trade.side === "Bought" ? "text-mint" : "text-coral"}>
                 {trade.side}
               </span>{" "}
-              <b className="font-semibold">{trade.asset}</b>
+              <b className="font-semibold text-ink">{trade.asset}</b>
             </span>
-            <span className="text-mist tabular-nums">{trade.size}</span>
-            <span className="text-right text-sm text-haze">{trade.when}</span>
+            <span className="text-ink-soft tabular-nums">{trade.size}</span>
+            <span className="text-right text-sm text-muted">{trade.when}</span>
           </li>
         ))}
       </ul>
@@ -197,11 +192,9 @@ function TabPanel({ tab }: { tab: Tab }) {
   return (
     <ul className="grid gap-4 md:grid-cols-3">
       {updates.map((update) => (
-        <li key={update.when} className="flex flex-col gap-3 rounded-2xl border border-foam/10 p-5">
-          <span className="text-xs text-haze">{update.when}</span>
-          <p className="font-display text-xl leading-snug font-medium text-foam italic">
-            “{update.text}”
-          </p>
+        <li key={update.when} className="flex flex-col gap-3 rounded-2xl bg-pearl p-5">
+          <span className="text-xs text-muted">{update.when}</span>
+          <p className="font-display text-xl leading-snug text-ink italic">“{update.text}”</p>
         </li>
       ))}
     </ul>
@@ -212,8 +205,8 @@ export function CaptainProfile() {
   const [tab, setTab] = useState<Tab>("Performance");
 
   return (
-    <Section tone="deep" className="py-28 md:py-40">
-      <Container className="flex flex-col gap-14">
+    <Section tone="ice" className="py-24 md:py-32">
+      <Container className="flex flex-col gap-12">
         <SectionHeading
           eyebrow="Before you join"
           title={
@@ -224,25 +217,25 @@ export function CaptainProfile() {
           lede="Every Captain has a public profile: returns, holdings, each trade and their own notes."
         />
 
-        <Reveal className="overflow-hidden rounded-panel panel-night">
-          <div className="flex flex-col gap-6 p-6 md:flex-row md:items-center md:p-8">
+        <Reveal className="overflow-hidden rounded-panel panel">
+          <div className="flex flex-col gap-5 p-6 md:flex-row md:items-center md:p-8">
             <Image
               src="/captains/atlas.webp"
               alt="Portrait of Atlas"
-              width={80}
-              height={80}
-              className="size-20 rounded-2xl object-cover ring-1 ring-brass/40"
+              width={72}
+              height={72}
+              className="size-18 rounded-2xl object-cover ring-1 ring-brass/50"
             />
             <div className="flex flex-1 flex-col gap-1">
-              <span className="flex items-center gap-3 font-display text-4xl leading-none font-semibold">
+              <span className="flex items-center gap-3 font-display text-[2rem] leading-none text-ink">
                 Atlas <Insignia rank="Admiral" />
               </span>
-              <span className="text-sm text-mist">
+              <span className="text-sm text-muted">
                 Admiral · Solana Momentum · Trading for 14 months · Medium risk
               </span>
             </div>
             <div className="flex gap-3">
-              <ButtonLink href="#join" variant="ghost" size="md">
+              <ButtonLink href="#join" variant="outline" size="md">
                 Save
               </ButtonLink>
               <ButtonLink href="#join" size="md">
@@ -251,19 +244,14 @@ export function CaptainProfile() {
             </div>
           </div>
 
-          <dl className="grid grid-cols-2 border-t border-foam/10 md:grid-cols-5">
+          <dl className="grid grid-cols-2 border-t border-line md:grid-cols-5">
             {profileStats.map((stat) => (
               <div
                 key={stat.label}
-                className="flex flex-col gap-1 border-foam/10 px-6 py-5 not-last:border-r md:px-8"
+                className="flex flex-col gap-1 border-line px-6 py-5 not-last:border-r md:px-8"
               >
-                <dt className="order-2 text-xs text-haze">{stat.label}</dt>
-                <dd
-                  className={cn(
-                    "order-1 font-display text-3xl font-semibold tabular-nums",
-                    stat.tone,
-                  )}
-                >
+                <dt className="order-2 text-xs text-muted">{stat.label}</dt>
+                <dd className={cn("order-1 font-display text-[1.75rem] tabular-nums", stat.tone)}>
                   {stat.value}
                 </dd>
               </div>
@@ -273,7 +261,7 @@ export function CaptainProfile() {
           <div
             role="tablist"
             aria-label="Captain profile"
-            className="flex gap-8 overflow-x-auto border-y border-foam/10 px-6 md:px-8"
+            className="flex gap-8 overflow-x-auto border-y border-line px-6 md:px-8"
           >
             {tabs.map((name) => (
               <button
@@ -286,7 +274,7 @@ export function CaptainProfile() {
                 onClick={() => setTab(name)}
                 className={cn(
                   "relative py-4 text-sm font-semibold whitespace-nowrap transition-colors",
-                  tab === name ? "text-foam" : "text-haze hover:text-mist",
+                  tab === name ? "text-ink" : "text-muted hover:text-ink-soft",
                 )}
               >
                 {name}
@@ -304,7 +292,7 @@ export function CaptainProfile() {
             id="profile-panel"
             role="tabpanel"
             aria-labelledby={`profile-tab-${tab}`}
-            className="min-h-[22rem] p-6 md:p-8"
+            className="min-h-[21rem] p-6 md:p-8"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
@@ -319,7 +307,9 @@ export function CaptainProfile() {
             </AnimatePresence>
           </div>
         </Reveal>
-        <p className="text-xs text-haze">Sample Captain. Figures are illustrative before launch.</p>
+        <p className="text-xs text-muted">
+          Sample Captain. Figures are illustrative before launch.
+        </p>
       </Container>
     </Section>
   );

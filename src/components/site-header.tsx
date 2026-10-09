@@ -16,7 +16,7 @@ const links = [
   { href: "#faq", label: "FAQ" },
 ];
 
-/** Clear over the hero; turns to frosted navy once the page scrolls. */
+/** Clear over the hero; turns to frosted white once the page scrolls. */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -29,7 +29,7 @@ export function SiteHeader() {
         className={cn(
           "border-b transition-colors duration-300",
           scrolled || open
-            ? "border-brass/15 bg-deep/80 backdrop-blur-xl"
+            ? "border-line bg-white/85 backdrop-blur-xl"
             : "border-transparent bg-transparent",
         )}
       >
@@ -38,20 +38,20 @@ export function SiteHeader() {
             <Image
               src="/brand/logo.webp"
               alt=""
-              width={34}
-              height={34}
-              className="size-[34px] rounded-[9px]"
+              width={32}
+              height={32}
+              className="size-8 rounded-[8px]"
             />
-            <span className="font-caps text-[1.375rem] font-semibold tracking-[0.18em] text-foam">
+            <span className="font-display text-xl tracking-[0.18em] text-ink uppercase">
               Socially
             </span>
           </a>
 
           <nav aria-label="Main" className="hidden lg:block">
-            <ul className="flex items-center gap-8 text-[0.9375rem] text-mist">
+            <ul className="flex items-center gap-8 text-[0.9375rem] text-ink-soft">
               {links.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="transition-colors hover:text-foam">
+                  <a href={link.href} className="transition-colors hover:text-ink">
                     {link.label}
                   </a>
                 </li>
@@ -62,7 +62,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-4">
             <a
               href="#captain"
-              className="hidden text-[0.9375rem] font-medium text-foam transition-colors hover:text-brass-light md:inline"
+              className="hidden text-[0.9375rem] font-medium text-ink transition-colors hover:text-brass-deep md:inline"
             >
               For Captains
             </a>
@@ -75,7 +75,7 @@ export function SiteHeader() {
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
               onClick={() => setOpen((value) => !value)}
-              className="grid size-11 place-items-center rounded-full border border-foam/20 text-foam lg:hidden"
+              className="grid size-11 place-items-center rounded-full border border-ink/15 bg-white text-ink lg:hidden"
             >
               {open ? (
                 <X aria-hidden className="size-5" />
@@ -95,7 +95,7 @@ export function SiteHeader() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ type: "spring", damping: 28, stiffness: 320 }}
-            className="border-b border-brass/15 bg-deep/95 backdrop-blur-xl lg:hidden"
+            className="border-b border-line bg-white/95 backdrop-blur-xl lg:hidden"
           >
             <Container className="flex flex-col gap-1 py-4">
               {[...links, { href: "#captain", label: "For Captains" }].map((link) => (
@@ -103,7 +103,7 @@ export function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-xl px-3 py-3.5 font-display text-2xl font-semibold text-foam hover:bg-foam/5"
+                  className="rounded-xl px-3 py-3 font-display text-2xl text-ink hover:bg-pearl"
                 >
                   {link.label}
                 </a>

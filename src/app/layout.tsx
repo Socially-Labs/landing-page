@@ -1,20 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Cormorant_SC, Inter } from "next/font/google";
+import { Instrument_Serif, Inter } from "next/font/google";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const instrument = Instrument_Serif({
+  variable: "--font-instrument",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "400",
   style: ["normal", "italic"],
-  display: "swap",
-});
-
-const cormorantSC = Cormorant_SC({
-  variable: "--font-cormorant-sc",
-  subsets: ["latin"],
-  weight: ["500", "600"],
   display: "swap",
 });
 
@@ -31,16 +24,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07172c",
-  colorScheme: "dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${cormorant.variable} ${cormorantSC.variable} ${inter.variable} antialiased`}
-    >
+    <html lang="en" className={`${instrument.variable} ${inter.variable} antialiased`}>
       <body className="min-h-svh">
         <Providers>{children}</Providers>
       </body>

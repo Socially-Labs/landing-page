@@ -7,8 +7,6 @@ type SectionHeadingProps = {
   /** Wrap the accent phrase in <em> to set it in brass italic. */
   title: ReactNode;
   lede?: ReactNode;
-  /** `dark` for navy sections, `light` for pearl ones. */
-  tone?: "dark" | "light";
   align?: "start" | "center";
   className?: string;
 };
@@ -17,36 +15,25 @@ export function SectionHeading({
   eyebrow,
   title,
   lede,
-  tone = "dark",
   align = "start",
   className,
 }: SectionHeadingProps) {
-  const dark = tone === "dark";
   return (
     <Reveal
       className={cn(
-        "flex flex-col gap-5",
+        "flex flex-col gap-4",
         align === "center" && "items-center text-center",
         className,
       )}
     >
-      <p className={cn("flex items-center gap-3 eyebrow", dark ? "text-brass" : "text-brass-deep")}>
-        <span aria-hidden className="h-px w-8 bg-current opacity-60" />
+      <p className="flex items-center gap-3 eyebrow text-brass-deep">
+        <span aria-hidden className="h-px w-6 bg-brass" />
         {eyebrow}
       </p>
-      <h2
-        className={cn(
-          "max-w-[18ch] font-display text-[clamp(2.6rem,5vw,4.5rem)] leading-[0.98] font-semibold tracking-[-0.01em] [&_em]:font-medium [&_em]:italic",
-          dark ? "text-foam [&_em]:text-brass-light" : "text-ink [&_em]:text-brass-deep",
-        )}
-      >
+      <h2 className="max-w-[20ch] font-display text-[clamp(2.25rem,3.6vw,3.25rem)] leading-[1.05] tracking-[-0.01em] text-ink [&_em]:text-brass-deep">
         {title}
       </h2>
-      {lede && (
-        <p className={cn("max-w-[34rem] text-lg/relaxed", dark ? "text-mist" : "text-ink-soft")}>
-          {lede}
-        </p>
-      )}
+      {lede && <p className="max-w-[32rem] text-[1.0625rem]/relaxed text-ink-soft">{lede}</p>}
     </Reveal>
   );
 }

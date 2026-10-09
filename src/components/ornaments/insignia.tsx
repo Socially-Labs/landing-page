@@ -13,7 +13,7 @@ export function Insignia({ rank, className }: { rank: Rank; className?: string }
     <span
       title={rank}
       className={cn(
-        "inline-grid size-6 flex-none place-items-center rounded-full border border-brass/70 font-display text-[0.7rem] leading-none font-semibold text-brass shadow-[inset_0_0_0_2px_rgb(201_166_107/0.18)]",
+        "inline-grid size-6 flex-none place-items-center rounded-full border border-brass bg-white font-display text-[0.7rem] leading-none font-semibold text-brass-deep shadow-[inset_0_0_0_2px_rgb(201_166_107/0.2)]",
         className,
       )}
     >

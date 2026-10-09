@@ -30,20 +30,24 @@ const periodLabel: Record<Period, string> = {
 
 const riskTone: Record<Captain["risk"], string> = {
   Low: "bg-mint-tint text-mint",
-  Medium: "bg-[#f5ede1] text-[#7a5226]",
+  Medium: "bg-amber-tint text-amber",
   High: "bg-coral-tint text-coral",
 };
 
 function PeriodPicker({ value, onChange }: { value: Period; onChange: (p: Period) => void }) {
   return (
-    <div role="group" aria-label="Time period" className="flex w-fit rounded-full bg-ink/6 p-1">
+    <div
+      role="group"
+      aria-label="Time period"
+      className="flex w-fit rounded-full bg-pearl p-1 ring-1 ring-line"
+    >
       {periods.map((period) => (
         <button
           key={period}
           type="button"
           aria-pressed={value === period}
           onClick={() => onChange(period)}
-          className="relative min-h-10 rounded-full px-4 text-sm font-semibold text-ink-soft"
+          className="relative min-h-10 rounded-full px-4 text-sm font-semibold text-muted"
         >
           {value === period && (
             <motion.span
@@ -64,11 +68,10 @@ export function TopCaptains() {
   const ranked = [...captains].sort((a, b) => b.returns[period] - a.returns[period]);
 
   return (
-    <Section id="captains" tone="pearl" className="py-28 md:py-40">
+    <Section id="captains" className="py-24 md:py-32">
       <Container className="flex flex-col gap-12">
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <SectionHeading
-            tone="light"
             eyebrow="Port of Captains"
             title={
               <>
@@ -81,22 +84,22 @@ export function TopCaptains() {
             <PeriodPicker value={period} onChange={setPeriod} />
             <a
               href="#join"
-              className="inline-flex items-center gap-1.5 font-semibold text-ink hover:text-brass-deep"
+              className="inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold text-ink hover:text-brass-deep"
             >
               See all in the app <ArrowRight aria-hidden className="size-4" />
             </a>
           </Reveal>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
-          <Reveal className="overflow-hidden rounded-panel border border-line bg-white shadow-lift">
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_21rem]">
+          <Reveal className="overflow-hidden rounded-panel panel">
             <div className="hidden md:block">
-              <table className="w-full border-collapse text-left">
+              <table className="w-full border-collapse text-left text-[0.9375rem]">
                 <caption className="sr-only">
                   Top Captains ranked by return over {periodLabel[period]}
                 </caption>
                 <thead>
-                  <tr className="border-b border-line text-xs font-semibold tracking-[0.08em] text-muted uppercase">
+                  <tr className="border-b border-line eyebrow whitespace-nowrap text-muted">
                     <th scope="col" className="py-4 pr-2 pl-6 font-semibold">
                       #
                     </th>
@@ -141,9 +144,9 @@ export function TopCaptains() {
                             <Image
                               src={captain.portrait}
                               alt=""
-                              width={44}
-                              height={44}
-                              className="size-11 rounded-xl object-cover"
+                              width={40}
+                              height={40}
+                              className="size-10 rounded-xl object-cover"
                             />
                             <div className="flex flex-col">
                               <span className="flex items-center gap-2 font-semibold text-ink">
@@ -170,7 +173,7 @@ export function TopCaptains() {
                         <td className="px-3 py-4">
                           <Sparkline
                             values={series(captain.months + captain.crew, value, 20)}
-                            className={cn("h-8 w-24", value >= 0 ? "text-mint" : "text-coral")}
+                            className={cn("h-7 w-22", value >= 0 ? "text-mint" : "text-coral")}
                           />
                         </td>
                         <td className="px-3 py-4 text-right text-ink tabular-nums">
@@ -204,9 +207,9 @@ export function TopCaptains() {
                     <Image
                       src={captain.portrait}
                       alt=""
-                      width={44}
-                      height={44}
-                      className="size-11 rounded-xl object-cover"
+                      width={40}
+                      height={40}
+                      className="size-10 rounded-xl object-cover"
                     />
                     <div className="flex min-w-0 flex-1 flex-col">
                       <span className="flex items-center gap-2 font-semibold text-ink">
@@ -236,11 +239,14 @@ export function TopCaptains() {
             </ul>
           </Reveal>
 
-          <Reveal delay={0.08} className="flex flex-col rounded-panel bg-deep p-6 text-foam">
+          <Reveal
+            delay={0.08}
+            className="flex flex-col rounded-panel bg-pearl p-6 ring-1 ring-line"
+          >
             <div className="flex items-center justify-between pb-4">
-              <span className="eyebrow text-brass">Ship’s log</span>
-              <span className="flex items-center gap-2 text-xs text-mist">
-                <span aria-hidden className="size-2 animate-pulse-dot rounded-full bg-mint-glow" />
+              <span className="eyebrow text-brass-deep">Ship’s log</span>
+              <span className="flex items-center gap-2 text-xs text-muted">
+                <span aria-hidden className="size-2 animate-pulse-dot rounded-full bg-mint" />
                 Live
               </span>
             </div>
@@ -248,19 +254,19 @@ export function TopCaptains() {
               {shipsLog.map((entry) => (
                 <li
                   key={`${entry.captain}-${entry.when}`}
-                  className="flex items-center gap-3 border-t border-foam/10 py-3.5 text-sm"
+                  className="flex items-center gap-3 border-t border-line py-3 text-sm"
                 >
                   <Image
                     src={entry.portrait}
                     alt=""
-                    width={32}
-                    height={32}
-                    className="size-8 rounded-full object-cover"
+                    width={30}
+                    height={30}
+                    className="size-7.5 rounded-full object-cover"
                   />
-                  <span className="flex-1 text-mist">
-                    <b className="font-semibold text-foam">{entry.captain}</b> {entry.text}
+                  <span className="flex-1 text-ink-soft">
+                    <b className="font-semibold text-ink">{entry.captain}</b> {entry.text}
                   </span>
-                  <span className="text-xs text-haze">{entry.when}</span>
+                  <span className="text-xs text-muted">{entry.when}</span>
                 </li>
               ))}
             </ul>

@@ -25,7 +25,7 @@ const channels = [
 
 export function Community() {
   return (
-    <Section tone="deep" className="py-28 md:py-36">
+    <Section tone="pearl" className="py-24 md:py-32">
       <Container className="flex flex-col gap-12">
         <SectionHeading
           eyebrow="The crew"
@@ -40,18 +40,18 @@ export function Community() {
             <Reveal key={name} delay={index * 0.06}>
               <a
                 href={href}
-                className="group flex h-full flex-col gap-8 rounded-card border border-foam/10 bg-navy/50 p-7 transition-colors hover:border-brass/40 hover:bg-navy"
+                className="group flex h-full flex-col gap-8 rounded-card bg-white p-7 ring-1 ring-line transition-shadow hover:shadow-lift hover:ring-brass/40"
               >
                 <div className="flex items-center justify-between">
-                  <Icon aria-hidden className="size-6 text-brass" strokeWidth={1.5} />
+                  <Icon aria-hidden className="size-5.5 text-brass-deep" strokeWidth={1.6} />
                   <ArrowUpRight
                     aria-hidden
-                    className="size-5 text-haze transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foam"
+                    className="size-5 text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-ink"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="font-display text-3xl font-semibold">{name}</span>
-                  <span className="text-sm text-mist">
+                  <span className="font-display text-[1.75rem] text-ink">{name}</span>
+                  <span className="text-sm text-muted">
                     {detail} · {note}
                   </span>
                 </div>

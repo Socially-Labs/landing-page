@@ -31,10 +31,9 @@ const rows: { label: string; others: [string, string, string]; socially: string 
 
 export function Comparison() {
   return (
-    <Section tone="pearl" className="pb-28 md:pb-40">
+    <Section className="py-24 md:py-32">
       <Container className="flex flex-col gap-12">
         <SectionHeading
-          tone="light"
           eyebrow="Why Socially"
           title={
             <>
@@ -42,23 +41,19 @@ export function Comparison() {
             </>
           }
         />
-        <Reveal className="overflow-x-auto rounded-panel border border-line bg-white shadow-lift">
-          <table className="w-full min-w-[52rem] border-collapse text-left">
+        <Reveal className="overflow-x-auto rounded-panel panel">
+          <table className="w-full min-w-[52rem] border-collapse text-left text-[0.9375rem]">
             <thead>
               <tr>
                 <th scope="col" className="w-[20%] px-6 py-5">
                   <span className="sr-only">Question</span>
                 </th>
                 {columns.map((column) => (
-                  <th
-                    key={column}
-                    scope="col"
-                    className="px-6 py-5 text-xs font-semibold tracking-[0.08em] text-muted uppercase"
-                  >
+                  <th key={column} scope="col" className="px-6 py-5 eyebrow text-muted">
                     {column}
                   </th>
                 ))}
-                <th scope="col" className="bg-deep px-6 py-5 eyebrow text-brass">
+                <th scope="col" className="bg-ice px-6 py-5 eyebrow text-brass-deep">
                   Socially
                 </th>
               </tr>
@@ -74,11 +69,11 @@ export function Comparison() {
                       {cell}
                     </td>
                   ))}
-                  <td className="border-t border-foam/10 bg-deep px-6 py-5 align-top font-medium text-foam">
+                  <td className="bg-ice px-6 py-5 align-top font-semibold text-ink">
                     <span className="flex items-start gap-2.5">
                       <Check
                         aria-hidden
-                        className="mt-0.5 size-4 flex-none text-brass"
+                        className="mt-0.5 size-4 flex-none text-brass-deep"
                         strokeWidth={2.5}
                       />
                       {row.socially}

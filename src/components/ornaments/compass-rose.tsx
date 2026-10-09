@@ -70,8 +70,8 @@ export function CompassRose({ className }: { className?: string }) {
           fill="currentColor"
           fillOpacity="0.85"
           fontSize="20"
-          fontFamily="var(--font-caps), Georgia, serif"
-          fontWeight="600"
+          fontFamily="var(--font-display), Georgia, serif"
+          fontWeight="400"
         >
           {label}
         </text>

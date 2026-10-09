@@ -4,14 +4,10 @@ import { motion, type HTMLMotionProps } from "motion/react";
 import { cn } from "@/lib/cn";
 
 const variants = {
-  /** Primary on any background: polished brass */
+  /** Primary: polished brass */
   brass: "btn-brass",
-  /** Secondary on navy */
-  ghost: "border border-foam/25 text-foam hover:border-foam/50 hover:bg-foam/5",
-  /** Primary on pearl */
-  ink: "bg-ink text-foam hover:bg-navy",
-  /** Secondary on pearl */
-  "ghost-ink": "border border-ink/25 text-ink hover:border-ink/50 hover:bg-ink/5",
+  /** Secondary: navy outline */
+  outline: "border border-ink/20 bg-white/60 text-ink hover:border-ink/40 hover:bg-white",
 };
 
 const sizes = {
