@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
-/** Rises into place the first time it scrolls into view, on the app's rise spring. */
+/** Fades up a few pixels the first time it scrolls into view. Kept small on purpose. */
 export function Reveal({
   children,
   className,
@@ -16,10 +16,10 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ type: "spring", damping: 28, stiffness: 240, mass: 0.9, delay }}
+      transition={{ duration: 0.6, ease: [0.2, 0.9, 0.25, 1], delay }}
     >
       {children}
     </motion.div>

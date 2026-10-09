@@ -75,11 +75,11 @@ export function TheCode() {
                 key={article.numeral}
                 className="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-b border-brass/20 py-7 last:border-b-0 md:grid-cols-[4rem_minmax(0,1fr)]"
               >
-                <span className="font-display text-[2.25rem] leading-none text-brass-deep italic">
+                <span className="font-display text-[1.875rem] leading-none text-brass-deep italic">
                   {article.numeral}
                 </span>
                 <div className="flex flex-col gap-1.5">
-                  <h3 className="font-display text-[1.5rem] leading-tight text-ink">
+                  <h3 className="font-display text-[1.375rem] leading-tight text-ink">
                     {article.title}
                   </h3>
                   <p className="text-[0.9375rem]/relaxed text-ink-soft">{article.body}</p>

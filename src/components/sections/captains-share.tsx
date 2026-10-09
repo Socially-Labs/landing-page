@@ -23,14 +23,14 @@ export function CaptainsShare() {
           <Reveal className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 rounded-card bg-pearl p-6 ring-1 ring-line">
             <div className="flex flex-col gap-1">
               <span className="text-sm text-muted">Your vault grows</span>
-              <span className="font-display text-[1.75rem] text-ink tabular-nums">
+              <span className="font-display text-[1.5rem] text-ink tabular-nums">
                 $1,000 → $1,100
               </span>
             </div>
             <span aria-hidden className="h-12 w-px bg-line" />
             <div className="flex flex-col gap-1">
               <span className="text-sm text-muted">The Captain earns</span>
-              <span className="font-display text-[1.75rem] text-brass-deep tabular-nums">$10</span>
+              <span className="font-display text-[1.5rem] text-brass-deep tabular-nums">$10</span>
             </div>
           </Reveal>
         </div>
@@ -39,7 +39,7 @@ export function CaptainsShare() {
           <CompassRose className="pointer-events-none absolute -top-20 -right-20 size-72 text-brass/25" />
           <div className="relative flex flex-col gap-7">
             <div className="flex flex-col gap-2">
-              <span className="font-display text-[clamp(4.5rem,8vw,6.5rem)] leading-[0.9] text-brass-deep">
+              <span className="font-display text-[clamp(3.75rem,6vw,5rem)] leading-[0.9] text-brass-deep">
                 10%
               </span>
               <span className="eyebrow text-muted">of new profit, nothing else</span>

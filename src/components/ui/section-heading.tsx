@@ -30,7 +30,7 @@ export function SectionHeading({
         <span aria-hidden className="h-px w-6 bg-brass" />
         {eyebrow}
       </p>
-      <h2 className="max-w-[20ch] font-display text-[clamp(2.25rem,3.6vw,3.25rem)] leading-[1.05] tracking-[-0.01em] text-ink [&_em]:text-brass-deep">
+      <h2 className="max-w-[20ch] font-display text-[clamp(2rem,3vw,2.75rem)] leading-[1.08] tracking-[-0.01em] text-ink [&_em]:text-brass-deep">
         {title}
       </h2>
       {lede && <p className="max-w-[32rem] text-[1.0625rem]/relaxed text-ink-soft">{lede}</p>}

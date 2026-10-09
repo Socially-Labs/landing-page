@@ -28,7 +28,7 @@ export function FinalCta() {
             The first voyage
             <span aria-hidden className="h-px w-6 bg-brass" />
           </p>
-          <h2 className="font-display text-[clamp(2.75rem,5.4vw,4.5rem)] leading-[1] tracking-[-0.015em] text-ink">
+          <h2 className="font-display text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.05] tracking-[-0.015em] text-ink">
             Reserve your <em className="text-brass-deep">berth.</em>
           </h2>
           <p className="max-w-[30rem] text-[1.0625rem]/relaxed text-ink-soft">

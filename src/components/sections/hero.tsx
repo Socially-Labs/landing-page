@@ -24,7 +24,7 @@ export function Hero() {
             <span aria-hidden className="h-px w-8 bg-brass" />
             Social trading on Solana
           </p>
-          <h1 className="animate-rise font-display text-[clamp(2.75rem,5.4vw,5rem)] leading-[1] tracking-[-0.015em] text-ink [animation-delay:80ms]">
+          <h1 className="animate-rise font-display text-[clamp(2.5rem,4.4vw,4rem)] leading-[1.04] tracking-[-0.015em] text-ink [animation-delay:80ms]">
             Pick a Captain.
             <br />
             Join the Crew.

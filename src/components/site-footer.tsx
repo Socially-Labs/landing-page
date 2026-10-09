@@ -1,5 +1,12 @@
 import Image from "next/image";
+import { DiscordLogo, Porthole, TelegramLogo, XLogo } from "@/components/ornaments/social-icons";
 import { Container } from "@/components/ui/container";
+
+const socials = [
+  { Logo: XLogo, label: "Socially on X" },
+  { Logo: DiscordLogo, label: "Socially on Discord" },
+  { Logo: TelegramLogo, label: "Socially on Telegram" },
+];
 
 const groups = [
   { title: "Product", links: ["How it works", "Captains", "Safety", "Fees"] },
@@ -27,6 +34,21 @@ export function SiteFooter() {
             <p className="max-w-[16rem] text-sm text-ink-soft">
               Social trading on Solana. Pick a Captain, join the Crew, keep your keys.
             </p>
+            <ul className="mt-2 flex gap-4">
+              {socials.map(({ Logo, label }) => (
+                <li key={label}>
+                  <a
+                    href="#"
+                    aria-label={label}
+                    className="block transition-transform hover:-translate-y-0.5"
+                  >
+                    <Porthole className="size-10 ring-2">
+                      <Logo className="size-4.5" />
+                    </Porthole>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
           {groups.map((group) => (
             <nav key={group.title} aria-label={group.title} className="flex flex-col gap-3">

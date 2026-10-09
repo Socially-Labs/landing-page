@@ -76,7 +76,7 @@ export function Faq() {
                     aria-expanded={expanded}
                     aria-controls={`faq-answer-${index}`}
                     onClick={() => setOpen(expanded ? null : index)}
-                    className="flex min-h-18 w-full items-center justify-between gap-6 py-5 text-left font-display text-[1.375rem] text-ink"
+                    className="flex min-h-18 w-full items-center justify-between gap-6 py-5 text-left font-display text-[1.25rem] text-ink"
                   >
                     {item.q}
                     <motion.span

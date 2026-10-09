@@ -66,7 +66,7 @@ export function Stats() {
               className="flex flex-col gap-2.5 bg-white p-6 md:p-7"
             >
               <span className="eyebrow text-muted">{stat.label}</span>
-              <span className="font-display text-[clamp(2.5rem,3.6vw,3.25rem)] leading-none text-ink">
+              <span className="font-display text-[clamp(2.25rem,3vw,2.75rem)] leading-none text-ink">
                 <CountUp stat={stat} />
               </span>
               <span className="text-sm text-mint">{stat.note}</span>

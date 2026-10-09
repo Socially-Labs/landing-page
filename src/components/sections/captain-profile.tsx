@@ -136,7 +136,7 @@ function TabPanel({ tab }: { tab: Tab }) {
         <PerformanceChart />
         <div className="flex flex-col gap-3">
           <span className="eyebrow text-brass-deep">Latest update</span>
-          <blockquote className="font-display text-[1.375rem] leading-snug text-ink italic">
+          <blockquote className="font-display text-[1.25rem] leading-snug text-ink italic">
             “{updates[0].text}”
           </blockquote>
           <span className="text-sm text-muted">Atlas · {updates[0].when}</span>
@@ -227,7 +227,7 @@ export function CaptainProfile() {
               className="size-18 rounded-2xl object-cover ring-1 ring-brass/50"
             />
             <div className="flex flex-1 flex-col gap-1">
-              <span className="flex items-center gap-3 font-display text-[2rem] leading-none text-ink">
+              <span className="flex items-center gap-3 font-display text-[1.75rem] leading-none text-ink">
                 Atlas <Insignia rank="Admiral" />
               </span>
               <span className="text-sm text-muted">
@@ -251,7 +251,7 @@ export function CaptainProfile() {
                 className="flex flex-col gap-1 border-line px-6 py-5 not-last:border-r md:px-8"
               >
                 <dt className="order-2 text-xs text-muted">{stat.label}</dt>
-                <dd className={cn("order-1 font-display text-[1.75rem] tabular-nums", stat.tone)}>
+                <dd className={cn("order-1 font-display text-[1.5rem] tabular-nums", stat.tone)}>
                   {stat.value}
                 </dd>
               </div>

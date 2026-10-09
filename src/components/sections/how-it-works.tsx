@@ -11,7 +11,9 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/cn";
 
-const STEP_MS = 5200;
+/** Long enough to read the step and glance at the screen. */
+const STEP_MS = 8000;
+const EASE = [0.2, 0.9, 0.25, 1] as const;
 
 const steps = [
   {
@@ -69,13 +71,13 @@ export function HowItWorks() {
   }, [active, autoplay]);
 
   return (
-    <Section id="how" className="py-24 md:py-32">
+    <Section id="how" className="py-24 md:py-28">
       <Container>
         <div
           ref={sectionRef}
           className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20"
         >
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-9">
             <SectionHeading
               eyebrow="How it works"
               title={
@@ -101,21 +103,21 @@ export function HowItWorks() {
                       type="button"
                       aria-current={current ? "step" : undefined}
                       onClick={() => setActive(index)}
-                      className="relative grid w-full grid-cols-[2.75rem_minmax(0,1fr)] gap-x-4 py-5 text-left"
+                      className="relative grid w-full grid-cols-[2.5rem_minmax(0,1fr)] gap-x-4 py-4.5 text-left"
                     >
                       <span
                         className={cn(
-                          "font-display text-2xl leading-none italic transition-colors",
+                          "pt-0.5 font-display text-xl leading-none italic transition-colors duration-500",
                           current ? "text-brass-deep" : "text-muted/60",
                         )}
                       >
                         {item.numeral}
                       </span>
-                      <span className="flex flex-col gap-2">
+                      <span className="flex flex-col">
                         <span
                           className={cn(
-                            "font-display text-[1.5rem] leading-tight transition-colors",
-                            current ? "text-ink" : "text-ink/55",
+                            "font-display text-[1.375rem] leading-tight transition-colors duration-500",
+                            current ? "text-ink" : "text-ink/50",
                           )}
                         >
                           {item.title}
@@ -126,10 +128,12 @@ export function HowItWorks() {
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: "auto", opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.3, ease: [0.2, 0.9, 0.25, 1] }}
-                              className="block overflow-hidden text-[0.9375rem]/relaxed text-ink-soft"
+                              transition={{ duration: 0.45, ease: EASE }}
+                              className="block overflow-hidden"
                             >
-                              {item.body}
+                              <span className="block pt-2 text-[0.9375rem]/relaxed text-ink-soft">
+                                {item.body}
+                              </span>
                             </motion.span>
                           )}
                         </AnimatePresence>
@@ -141,7 +145,7 @@ export function HowItWorks() {
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
                           transition={{ duration: STEP_MS / 1000, ease: "linear" }}
-                          className="absolute inset-x-0 -bottom-px h-0.5 origin-left bg-brass"
+                          className="absolute inset-x-0 -bottom-px h-px origin-left bg-brass"
                         />
                       )}
                     </button>
@@ -154,25 +158,25 @@ export function HowItWorks() {
           <div className="relative flex justify-center py-6">
             <div
               aria-hidden
-              className="absolute top-1/2 left-1/2 size-[min(32rem,110%)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-ice"
+              className="absolute top-1/2 left-1/2 size-[min(30rem,105%)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-ice"
             />
-            <CompassRose className="absolute top-1/2 left-1/2 size-[min(36rem,125%)] -translate-x-1/2 -translate-y-1/2 text-brass/30" />
+            <CompassRose className="absolute top-1/2 left-1/2 size-[min(34rem,120%)] -translate-x-1/2 -translate-y-1/2 text-brass/25" />
 
-            <PhoneFrame className="h-[min(36rem,calc(100svh-10rem))] min-h-[28rem]">
+            <PhoneFrame className="h-[min(34rem,calc(100svh-10rem))] min-h-[28rem]">
               <AnimatePresence initial={false}>
                 <motion.div
                   key={step.src}
                   className="absolute inset-0"
-                  initial={{ opacity: 0, scale: 1.03 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, ease: [0.2, 0.9, 0.25, 1] }}
+                  transition={{ duration: 0.7, ease: "easeInOut" }}
                 >
                   <Image
                     src={step.src}
                     alt={step.alt}
                     fill
-                    sizes="280px"
+                    sizes="260px"
                     className="object-cover"
                   />
                 </motion.div>
@@ -182,15 +186,15 @@ export function HowItWorks() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={step.chip}
-                initial={{ opacity: 0, y: 10, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ type: "spring", damping: 26, stiffness: 260 }}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: EASE }}
                 aria-live="polite"
                 className="absolute bottom-[14%] left-1/2 flex -translate-x-[95%] items-center gap-3 rounded-2xl px-4 py-3 panel sm:-translate-x-[110%]"
               >
-                <span className="grid size-9 place-items-center rounded-full bg-ice text-brass-deep">
-                  <step.Icon aria-hidden className="size-4.5" />
+                <span className="grid size-8.5 place-items-center rounded-full bg-ice text-brass-deep">
+                  <step.Icon aria-hidden className="size-4" />
                 </span>
                 <span className="text-sm font-semibold whitespace-nowrap text-ink">
                   {step.chip}

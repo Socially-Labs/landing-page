@@ -1,7 +1,7 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
 import { ButtonLink } from "@/components/ui/button-link";
@@ -16,33 +16,23 @@ const links = [
   { href: "#faq", label: "FAQ" },
 ];
 
-/** Clear over the hero; turns to frosted white once the page scrolls. */
+/** Sits over the top of the hero and scrolls away with the page. */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40">
-      <div
-        className={cn(
-          "border-b transition-colors duration-300",
-          scrolled || open
-            ? "border-line bg-white/85 backdrop-blur-xl"
-            : "border-transparent bg-transparent",
-        )}
-      >
+    <header className="absolute inset-x-0 top-0 z-40">
+      <div className={cn("border-b", open ? "border-line bg-white" : "border-transparent")}>
         <Container className="flex h-18 items-center justify-between gap-6">
-          <a href="#top" className="flex items-center gap-3">
+          <a href="#top" className="flex items-center gap-2.5">
             <Image
               src="/brand/logo.webp"
               alt=""
-              width={32}
-              height={32}
-              className="size-8 rounded-[8px]"
+              width={30}
+              height={30}
+              className="size-7.5 rounded-[7px]"
             />
-            <span className="font-display text-xl tracking-[0.18em] text-ink uppercase">
+            <span className="font-display text-lg tracking-[0.18em] text-ink uppercase">
               Socially
             </span>
           </a>
@@ -91,11 +81,11 @@ export function SiteHeader() {
         {open && (
           <motion.div
             id="site-menu"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ type: "spring", damping: 28, stiffness: 320 }}
-            className="border-b border-line bg-white/95 backdrop-blur-xl lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="border-b border-line bg-white shadow-soft lg:hidden"
           >
             <Container className="flex flex-col gap-1 py-4">
               {[...links, { href: "#captain", label: "For Captains" }].map((link) => (
@@ -103,12 +93,12 @@ export function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-xl px-3 py-3 font-display text-2xl text-ink hover:bg-pearl"
+                  className="rounded-xl px-3 py-3 text-lg text-ink hover:bg-pearl"
                 >
                   {link.label}
                 </a>
               ))}
-              <ButtonLink href="#join" onClick={() => setOpen(false)} className="mt-3">
+              <ButtonLink href="#join" onClick={() => setOpen(false)} className="mt-3" size="md">
                 Join the waitlist
               </ButtonLink>
             </Container>
