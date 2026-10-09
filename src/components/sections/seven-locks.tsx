@@ -3,11 +3,10 @@
 import { Check, X } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/cn";
-import { scenes } from "./scenes";
 
 /** The program's checks, in the order it runs them. */
 const locks = [
@@ -71,7 +70,7 @@ export function SevenLocks() {
         : "skip";
 
   return (
-    <SkyScene id="checks" scene={scenes.locks} className="py-28 md:py-40">
+    <Section id="checks" className="py-28 md:py-40">
       <Container>
         <SectionHeading
           eyebrow="The Seven Locks"
@@ -174,6 +173,6 @@ export function SevenLocks() {
         </motion.div>
         <p className="mt-4 text-[0.8125rem] text-ink-soft">Sample trades and a sample policy.</p>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }

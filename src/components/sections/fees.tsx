@@ -1,15 +1,14 @@
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { FeeChart } from "./fee-chart";
-import { scenes } from "./scenes";
 
 const noFees = ["Joining fee", "Monthly fee", "Exit fee"];
 
 export function Fees() {
   return (
-    <SkyScene id="fees" scene={scenes.fees} className="py-28 md:py-40">
+    <Section id="fees" className="py-28 md:py-40">
       <Container>
         <SectionHeading
           eyebrow="Fees"
@@ -65,6 +64,6 @@ export function Fees() {
           </div>
         </div>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }

@@ -1,11 +1,10 @@
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { CaptainCard } from "./captain-card";
 import { sampleCaptains } from "./captains-data";
-import { scenes } from "./scenes";
 
 /** Brass threads between the cards, as in the app's Discover artwork. */
 function Threads() {
@@ -44,7 +43,7 @@ function Threads() {
 export function Captains() {
   const { atlas, solstice, northstar } = sampleCaptains;
   return (
-    <SkyScene id="captains" scene={scenes.captains} className="py-28 md:py-40">
+    <Section id="captains" className="py-28 md:py-40">
       <Container className="grid gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
         <div className="flex flex-col gap-8">
           <SectionHeading
@@ -77,6 +76,6 @@ export function Captains() {
           />
         </div>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }

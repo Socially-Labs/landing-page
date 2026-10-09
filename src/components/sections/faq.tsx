@@ -3,10 +3,9 @@
 import { Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { scenes } from "./scenes";
 
 /* Answers follow the product spec. Have them reviewed before launch. */
 const questions = [
@@ -40,7 +39,7 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <SkyScene id="faq" scene={scenes.night} className="py-28 md:py-40">
+    <Section id="faq" tone="dark" className="py-28 md:py-40">
       <Container className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <SectionHeading
           tone="night"
@@ -95,6 +94,6 @@ export function Faq() {
           })}
         </div>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }

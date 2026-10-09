@@ -7,7 +7,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 /**
  * App-wide motion settings. Motion follows the visitor's reduced-motion preference, and Lenis
- * smooth scrolling runs on Motion's frame loop so scroll, UI animation and the sky share one clock.
+ * smooth scrolling runs on Motion's frame loop so scroll and UI animation share one clock.
  */
 export function Providers({ children }: { children: ReactNode }) {
   const lenisRef = useRef<LenisRef>(null);

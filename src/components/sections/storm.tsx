@@ -1,9 +1,8 @@
 import { Check, TrendingDown, X } from "lucide-react";
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { scenes } from "./scenes";
 
 /** Sample vault value in $K over 12 weeks: peaks at $100K, crosses the $70K breaker in week 10. */
 const WEEKS = [92, 96, 100, 97, 93, 88, 84, 79, 74, 70, 68.5, 69.5];
@@ -110,7 +109,7 @@ const exitSteps = [
 
 export function Storm() {
   return (
-    <SkyScene id="risk" scene={scenes.storm} className="py-28 md:py-40">
+    <Section id="risk" tone="dark" className="py-28 md:py-40">
       <Container className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start">
         <div className="flex flex-col gap-8">
           <SectionHeading
@@ -199,6 +198,6 @@ export function Storm() {
           </ol>
         </Reveal>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }

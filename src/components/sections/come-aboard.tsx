@@ -3,13 +3,12 @@
 import { AnimatePresence, motion, useInView } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { PhoneFrame } from "@/components/ui/phone-frame";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/cn";
-import { scenes } from "./scenes";
 
 const steps = [
   {
@@ -92,7 +91,7 @@ export function ComeAboard() {
   const current = steps[active];
 
   return (
-    <SkyScene id="how" scene={scenes.aboard} className="py-28 md:py-40">
+    <Section id="how" className="py-28 md:py-40">
       <Container className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
         <div className="hidden lg:block">
           <div className="sticky top-[max(7rem,calc(50svh-21rem))] flex flex-col items-center gap-3">
@@ -142,6 +141,6 @@ export function ComeAboard() {
           </Reveal>
         </div>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }

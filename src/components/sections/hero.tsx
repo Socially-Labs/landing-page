@@ -1,10 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { ButtonLink } from "@/components/ui/button-link";
 import { PhoneFrame } from "@/components/ui/phone-frame";
 import { HeroUpdates } from "./hero-updates";
-import { scenes } from "./scenes";
 import { ScrollCue } from "./scroll-cue";
 
 /*
@@ -13,7 +12,7 @@ import { ScrollCue } from "./scroll-cue";
  */
 export function Hero() {
   return (
-    <SkyScene id="top" scene={scenes.hero} className="relative min-h-svh">
+    <Section id="top" className="relative min-h-svh">
       <div className="mx-auto grid min-h-svh max-w-[1440px] gap-12 px-6 pt-32 pb-32 md:px-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:pt-40 xl:px-24">
         <div className="flex max-w-[680px] flex-col gap-6">
           <p className="animate-rise eyebrow text-steel-deep">Join the voyage</p>
@@ -55,6 +54,6 @@ export function Hero() {
         </div>
       </div>
       <ScrollCue />
-    </SkyScene>
+    </Section>
   );
 }

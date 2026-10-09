@@ -8,16 +8,14 @@ import { Fees } from "@/components/sections/fees";
 import { Hero } from "@/components/sections/hero";
 import { Lead } from "@/components/sections/lead";
 import { Question } from "@/components/sections/question";
-import { scenes } from "@/components/sections/scenes";
 import { SevenLocks } from "@/components/sections/seven-locks";
 import { Storm } from "@/components/sections/storm";
 import { TheCode } from "@/components/sections/the-code";
 import { SiteNav } from "@/components/site-nav";
-import { SkyProvider } from "@/components/sky/sky-provider";
 
 export default function Home() {
   return (
-    <SkyProvider initialScene={scenes.hero}>
+    <>
       <SiteNav />
       <main>
         <Hero />
@@ -34,6 +32,6 @@ export default function Home() {
         <Faq />
         <Berth />
       </main>
-    </SkyProvider>
+    </>
   );
 }

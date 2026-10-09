@@ -1,9 +1,8 @@
 import { Check, X } from "lucide-react";
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/cn";
-import { scenes } from "./scenes";
 
 const can = [
   "Trade the vault on approved venues, starting with Jupiter",
@@ -44,10 +43,10 @@ function RuleList({ title, items, allowed }: { title: string; items: string[]; a
   );
 }
 
-/** The sky seen through a marble arch: the wall is painted by the arch's own spread shadow. */
+/** A marble arch window; the wall around it is painted by the arch's own spread shadow. */
 export function TheCode() {
   return (
-    <SkyScene id="safety" scene={scenes.code} className="relative overflow-hidden">
+    <Section id="safety" className="relative overflow-hidden">
       <div className="mx-auto max-w-[1440px] px-4 pt-20 md:px-12 md:pt-28">
         <div className="relative mx-auto max-w-[1180px]">
           <div
@@ -77,6 +76,6 @@ export function TheCode() {
         aria-hidden
         className="relative h-16 border-t border-ink/10 bg-linear-to-b from-tray to-[#e4eaf2] shadow-[0_-10px_30px_rgb(24_43_67/0.08)]"
       />
-    </SkyScene>
+    </Section>
   );
 }

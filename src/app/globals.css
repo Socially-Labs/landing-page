@@ -108,7 +108,7 @@
   }
 }
 
-/* Frosted glass over the sky, as on the app's cards and sheets */
+/* Frosted glass, as on the app's cards and sheets */
 @utility glass {
   background: rgb(255 255 255 / 0.6);
   border: 1px solid rgb(255 255 255 / 0.85);

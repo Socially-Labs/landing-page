@@ -1,8 +1,7 @@
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { scenes } from "./scenes";
 
 const oldAnswers = [
   {
@@ -24,7 +23,7 @@ const oldAnswers = [
 
 export function Question() {
   return (
-    <SkyScene id="question" scene={scenes.question} className="py-28 md:py-40">
+    <Section id="question" className="py-28 md:py-40">
       <Container>
         <SectionHeading
           eyebrow="The question"
@@ -59,6 +58,6 @@ export function Question() {
           </Reveal>
         </div>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }

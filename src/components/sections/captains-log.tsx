@@ -1,10 +1,9 @@
 import Image from "next/image";
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/cn";
-import { scenes } from "./scenes";
 
 const entries = [
   {
@@ -30,7 +29,7 @@ const entries = [
 
 export function CaptainsLog() {
   return (
-    <SkyScene scene={scenes.captains} className="pb-28 md:pb-40">
+    <Section className="pb-28 md:pb-40">
       <Container className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
         <SectionHeading
           eyebrow="Captain’s log"
@@ -89,6 +88,6 @@ export function CaptainsLog() {
           </ol>
         </Reveal>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }

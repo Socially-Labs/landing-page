@@ -1,12 +1,11 @@
 import { Bot, Coins, Link2, MessagesSquare } from "lucide-react";
 import Image from "next/image";
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { PhoneFrame } from "@/components/ui/phone-frame";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { scenes } from "./scenes";
 
 const points = [
   {
@@ -39,7 +38,7 @@ const ranks = [
 
 export function Lead() {
   return (
-    <SkyScene id="lead" scene={scenes.lead} className="py-28 md:py-40">
+    <Section id="lead" tone="dark" className="py-28 md:py-40">
       <Container className="grid gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center">
         <div className="flex flex-col gap-10">
           <SectionHeading
@@ -104,6 +103,6 @@ export function Lead() {
           <p className="text-xs text-on-navy-muted">App preview · Sample data</p>
         </Reveal>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }

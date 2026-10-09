@@ -6,7 +6,7 @@ type SectionHeadingProps = {
   eyebrow: string;
   title: ReactNode;
   lede?: ReactNode;
-  /** `sky` for navy text on a bright sky, `night` for light text on storm, dusk and night. */
+  /** `sky` for navy text on light sections, `night` for light text on navy sections. */
   tone?: "sky" | "night";
   align?: "start" | "center";
   className?: string;

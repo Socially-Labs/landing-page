@@ -1,9 +1,8 @@
-import { SkyScene } from "@/components/sky/sky-scene";
+import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/cn";
-import { scenes } from "./scenes";
 
 const columns = ["Hand over your money", "Copy their calls", "Exchange copy-trading", "Socially"];
 
@@ -47,7 +46,7 @@ const rows: { label: string; cells: [string, string, string, string] }[] = [
 
 export function Compare() {
   return (
-    <SkyScene id="compare" scene={scenes.compare} className="pb-28 md:pb-40">
+    <Section id="compare" tone="dark" className="pb-28 md:pb-40">
       <Container>
         <SectionHeading
           tone="night"
@@ -98,6 +97,6 @@ export function Compare() {
           </table>
         </Reveal>
       </Container>
-    </SkyScene>
+    </Section>
   );
 }
