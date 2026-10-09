@@ -1,255 +1,261 @@
 "use client";
 
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   AnimatePresence,
   motion,
-  useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
 } from "motion/react";
-import { useRef, useState } from "react";
-import { Insignia } from "@/components/ornaments/insignia";
-import { ShipsWheel } from "@/components/ornaments/ships-wheel";
+import { useEffect, useRef, useState } from "react";
+import { ShipsWheel, WheelCompass } from "@/components/ornaments/ships-wheel";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
-import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/cn";
-import type { Rank } from "@/lib/sample-data";
 
-/** One entry per handle, clockwise from the top. Figures are samples before launch. */
+/** One entry per handle, clockwise from north. Counts are samples before launch. */
 const helm = [
   {
+    dir: "N",
     label: "Your share",
     value: "80%",
-    detail: "Captains keep 80% of the Captain’s share, paid in vault shares at every new high.",
+    detail: "Of every fee your Crew pays, 80% is yours, paid in vault shares at each new high.",
   },
   {
+    dir: "NE",
+    label: "Crew fee",
+    value: "10%",
+    detail: "Your Crew pays 10% of new profit only. No new high, no fee.",
+  },
+  {
+    dir: "E",
+    label: "Your tools",
+    value: "App, bot, AI",
+    detail: "Trade in the app, or connect a bot or an AI agent. Every key has its own limits.",
+  },
+  {
+    dir: "SE",
+    label: "Ranks",
+    value: "3",
+    detail: "Rise from New Captain to Proven Captain to Admiral as your public record grows.",
+  },
+  {
+    dir: "S",
+    label: "Trades",
+    value: "48,920",
+    detail:
+      "Placed by Captains so far. Every one stays public, the losing ones too. Sample figure.",
+  },
+  {
+    dir: "SW",
     label: "Captains",
     value: "128",
-    detail: "Captains already trading on Socially. Sample figure before launch.",
+    detail: "Captains already trading for a Crew. Sample figure before launch.",
   },
   {
+    dir: "W",
     label: "Crew",
     value: "5,420",
     detail: "People waiting to join a vault. Sample figure before launch.",
   },
   {
+    dir: "NW",
     label: "Volume",
     value: "$24.6M",
     detail: "Traded by Captains so far. Sample figure before launch.",
   },
-  {
-    label: "Trades",
-    value: "48,920",
-    detail: "Every trade is public and permanent, the losing ones included.",
-  },
-  {
-    label: "Ranks",
-    value: "3",
-    detail: "Rise from New Captain to Proven Captain to Admiral on your public record.",
-  },
-  {
-    label: "Crew fee",
-    value: "10%",
-    detail: "Your Crew pays only on new profit. No profit, no fee.",
-  },
-  {
-    label: "Your tools",
-    value: "App, bot, AI",
-    detail: "Trade from the app or connect your own tools. Each key has its own limits.",
-  },
 ];
 
 const STEP = 360 / helm.length;
-const ranks: Rank[] = ["New Captain", "Proven Captain", "Admiral"];
+/** Scroll distance spent on each bearing. */
+const STEP_SVH = 55;
 
-/** The index of the handle nearest the top for a given wheel rotation. */
-function topIndex(rotation: number) {
-  return (((Math.round(-rotation / STEP) % helm.length) + helm.length) % helm.length) as number;
-}
+const bearing = (index: number) => `${String(index * STEP).padStart(3, "0")}°`;
 
 export function ForCaptains() {
-  const areaRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const [active, setActive] = useState(0);
 
-  // Scrolling through the section turns the wheel half a turn each way around centre.
-  const { scrollYProgress } = useScroll({ target: areaRef, offset: ["start end", "end start"] });
-  const scrollTurn = useSpring(useTransform(scrollYProgress, [0, 1], [-180, 180]), {
-    stiffness: 70,
-    damping: 22,
-  });
-  const still = useMotionValue(0);
-  // Steering by click adds to the scroll turn and settles on its own spring.
-  const steering = useSpring(0, { stiffness: 55, damping: 16 });
-  const rotate = useTransform(
-    () => (reduceMotion ? still.get() : scrollTurn.get()) + steering.get(),
-  );
-  const counter = useTransform(rotate, (r) => -r);
-
-  useMotionValueEvent(rotate, "change", (r) => {
-    const index = topIndex(r);
-    setActive((current) => (current === index ? current : index));
+  // Each bearing owns an equal slice of the track; the wheel only moves when the slice changes.
+  const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start start", "end end"] });
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    setActive(Math.min(helm.length - 1, Math.max(0, Math.floor(progress * helm.length))));
   });
 
+  const turn = useSpring(0, { stiffness: 46, damping: 14 });
+  const counter = useTransform(turn, (r) => -r);
+  useEffect(() => {
+    if (reduceMotion) turn.jump(-active * STEP);
+    else turn.set(-active * STEP);
+  }, [active, reduceMotion, turn]);
+
+  /** Scrolls to the middle of a bearing's slice, which turns the wheel there. */
   const steer = (index: number) => {
-    const current = rotate.get();
-    const delta = ((((-index * STEP - current) % 360) + 540) % 360) - 180;
-    if (reduceMotion) steering.jump(steering.get() + delta);
-    else steering.set(steering.get() + delta);
+    const track = trackRef.current;
+    if (!track) return;
+    const travel = track.offsetHeight - window.innerHeight;
+    const start = track.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({
+      top: start + ((index + 0.5) / helm.length) * travel,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
   };
 
   const item = helm[active];
 
   return (
-    <Section id="captain" tone="pearl" className="overflow-hidden py-24 md:py-28">
-      <Container>
-        <div
-          ref={areaRef}
-          className="grid items-center gap-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-12"
-        >
-          <div className="flex flex-col gap-9">
-            <SectionHeading
-              eyebrow="For traders"
-              title={
-                <>
-                  Take the <em>helm.</em>
-                </>
-              }
-              lede="Trade for a Crew and earn every time your vault reaches a new high. Turn the wheel to see what comes with it."
-            />
-
-            <Reveal className="flex flex-col gap-4 rounded-card bg-white p-6 ring-1 ring-line">
-              <div className="flex items-center justify-between">
-                <span className="eyebrow text-brass-deep">{item.label}</span>
-                <div className="flex gap-1.5">
-                  <button
-                    type="button"
-                    aria-label="Previous"
-                    onClick={() => steer((active - 1 + helm.length) % helm.length)}
-                    className="grid size-9 place-items-center rounded-full text-ink-soft ring-1 ring-line hover:text-ink hover:ring-brass/50"
-                  >
-                    <ChevronLeft aria-hidden className="size-4" />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Next"
-                    onClick={() => steer((active + 1) % helm.length)}
-                    className="grid size-9 place-items-center rounded-full text-ink-soft ring-1 ring-line hover:text-ink hover:ring-brass/50"
-                  >
-                    <ChevronRight aria-hidden className="size-4" />
-                  </button>
-                </div>
+    <Section id="captain" tone="pearl">
+      <div
+        ref={trackRef}
+        className="relative"
+        style={{ height: `${helm.length * STEP_SVH + 100}svh` }}
+      >
+        <div className="sticky top-0 h-svh overflow-hidden">
+          <Container className="grid h-full grid-rows-[auto_minmax(0,1fr)] gap-6 pt-12 md:pt-16 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:grid-rows-1 lg:items-center lg:gap-12 lg:pt-0">
+            <div className="flex flex-col gap-5 lg:gap-8">
+              <div className="flex flex-col gap-4">
+                <SectionHeading
+                  eyebrow="For traders"
+                  title={
+                    <>
+                      Take the <em>helm.</em>
+                    </>
+                  }
+                />
+                <p className="hidden max-w-[32rem] text-[1.0625rem]/relaxed text-ink-soft lg:block">
+                  Trade for a Crew and earn every time your vault reaches a new high. Turn the wheel
+                  to see what comes with it.
+                </p>
               </div>
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.p
-                  key={item.label}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                  aria-live="polite"
-                  className="min-h-[3.25rem] text-[0.9375rem]/relaxed text-ink-soft"
-                >
-                  {item.detail}
-                </motion.p>
-              </AnimatePresence>
-            </Reveal>
 
-            <Reveal className="flex flex-col gap-3">
-              <span className="eyebrow text-muted">Rise through the ranks</span>
-              <ol className="flex flex-wrap items-center gap-2">
-                {ranks.map((rank, index) => (
-                  <li key={rank} className="flex items-center gap-2">
-                    <span className="flex items-center gap-2 rounded-full bg-white py-1 pr-3.5 pl-1 text-sm text-ink ring-1 ring-line">
-                      <Insignia rank={rank} className="size-6.5 text-[0.65rem]" />
-                      {rank}
-                    </span>
-                    {index < ranks.length - 1 && (
-                      <ArrowRight aria-hidden className="size-3.5 text-brass" />
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </Reveal>
-
-            <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <ButtonLink href="#join" size="md">
-                Apply to captain
-              </ButtonLink>
-              <span className="text-sm text-ink-soft">
-                We review every application before a vault opens.
-              </span>
-            </Reveal>
-          </div>
-
-          <div className="flex flex-col items-center gap-6">
-            <div className="relative my-[calc(var(--wheel)*0.07)] size-(--wheel) [--wheel:16rem] sm:[--wheel:24rem] lg:[--wheel:22rem] xl:[--wheel:27rem]">
-              <motion.div style={{ rotate }} className="absolute inset-0">
-                <ShipsWheel className="absolute inset-0 size-full" />
-                {helm.map((entry, index) => (
-                  <div
-                    key={entry.label}
-                    className="absolute top-1/2 left-1/2"
-                    style={{
-                      transform: `rotate(${index * STEP}deg) translateY(calc(var(--wheel) * -0.535)) rotate(${-index * STEP}deg)`,
-                    }}
-                  >
-                    <motion.button
-                      type="button"
-                      style={{ rotate: counter }}
-                      onClick={() => steer(index)}
-                      aria-pressed={active === index}
-                      className={cn(
-                        "-translate-x-1/2 -translate-y-1/2 rounded-full px-2 py-1 text-[0.6875rem] font-semibold whitespace-nowrap ring-1 transition-colors sm:px-3 sm:py-1.5 sm:text-[0.8125rem]",
-                        active === index
-                          ? "bg-white text-brass-deep shadow-soft ring-brass"
-                          : "bg-white/80 text-muted ring-line hover:text-ink",
-                      )}
-                    >
-                      {entry.label}
-                    </motion.button>
-                  </div>
-                ))}
-              </motion.div>
-
-              <div className="pointer-events-none absolute top-1/2 left-1/2 flex size-[calc(var(--wheel)*0.29)] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center text-center">
+              <div className="rounded-card bg-white p-5 shadow-soft ring-1 ring-line lg:p-7">
+                <div className="flex items-center justify-between eyebrow">
+                  <span className="text-brass-deep">
+                    Bearing {item.dir} · {bearing(active)}
+                  </span>
+                  <span className="text-muted tabular-nums">
+                    {String(active + 1).padStart(2, "0")} / {String(helm.length).padStart(2, "0")}
+                  </span>
+                </div>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={item.label}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex flex-col items-center gap-1"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    aria-live="polite"
                   >
-                    <span
-                      className={cn(
-                        "font-display leading-none text-ink",
-                        item.value.length > 7
-                          ? "text-[calc(var(--wheel)*0.05)]"
-                          : "text-[calc(var(--wheel)*0.085)]",
-                      )}
-                    >
+                    <p className="mt-4 font-display text-[clamp(2.75rem,5vw,4.25rem)] leading-none text-ink">
                       {item.value}
-                    </span>
-                    <span className="text-[calc(var(--wheel)*0.028)] font-semibold tracking-[0.12em] text-brass-deep uppercase">
-                      {item.label}
-                    </span>
+                    </p>
+                    <p className="mt-3 font-semibold text-ink">{item.label}</p>
+                    <p className="mt-1.5 min-h-[3.25rem] text-[0.9375rem]/relaxed text-ink-soft">
+                      {item.detail}
+                    </p>
                   </motion.div>
                 </AnimatePresence>
               </div>
+
+              <div className="flex flex-col gap-3">
+                <div role="group" aria-label="Bearings" className="grid grid-cols-8 gap-1.5">
+                  {helm.map((entry, index) => (
+                    <button
+                      key={entry.dir}
+                      type="button"
+                      aria-label={`${entry.dir}: ${entry.label}`}
+                      aria-pressed={active === index}
+                      onClick={() => steer(index)}
+                      className={cn(
+                        "h-10 rounded-xl text-xs font-semibold tracking-[0.08em] ring-1 transition-colors lg:h-11",
+                        active === index
+                          ? "bg-white text-brass-deep shadow-soft ring-brass"
+                          : "text-muted ring-line hover:text-ink hover:ring-brass/50",
+                      )}
+                    >
+                      {entry.dir}
+                    </button>
+                  ))}
+                </div>
+                <p className="hidden text-xs text-muted lg:block">
+                  Scroll to turn the wheel, or pick a bearing.
+                </p>
+              </div>
+
+              <div className="hidden flex-wrap items-center gap-4 lg:flex">
+                <ButtonLink href="#join" size="md">
+                  Apply to captain
+                </ButtonLink>
+                <span className="text-sm text-ink-soft">
+                  We review every application before a vault opens.
+                </span>
+              </div>
             </div>
-            <p className="text-xs text-muted">Scroll, or tap a handle, to turn the wheel.</p>
-          </div>
+
+            <div className="relative h-full [--wheel:min(112vw,30rem)] md:[--wheel:32rem] lg:[--wheel:min(calc(100svh_-_10rem),40rem,calc(100vw_-_38rem))]">
+              <div className="absolute top-8 left-1/2 size-(--wheel) -translate-x-1/2 md:top-20 lg:top-[calc(50%_+_1.75rem)] lg:-translate-y-1/2">
+                <div aria-hidden className="absolute inset-[6%] rounded-full bg-ice" />
+                <div className="absolute inset-0 drop-shadow-[0_22px_26px_rgb(24_43_67/0.22)]">
+                  <motion.div style={{ rotate: turn }} className="absolute inset-0">
+                    <ShipsWheel className="size-full" />
+                  </motion.div>
+                  <WheelCompass className="absolute inset-0 size-full" />
+                </div>
+
+                <motion.div
+                  style={{ rotate: turn }}
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 hidden md:block"
+                >
+                  {helm.map((entry, index) => (
+                    <div
+                      key={entry.dir}
+                      className="absolute top-1/2 left-1/2"
+                      style={{
+                        transform: `rotate(${index * STEP}deg) translateY(calc(var(--wheel) * -0.535)) rotate(${-index * STEP}deg)`,
+                      }}
+                    >
+                      <motion.button
+                        type="button"
+                        tabIndex={-1}
+                        style={{ rotate: counter }}
+                        onClick={() => steer(index)}
+                        className={cn(
+                          "pointer-events-auto -translate-x-1/2 -translate-y-1/2 rounded-full px-3.5 py-1.5 text-[0.8125rem] font-semibold whitespace-nowrap ring-1 transition-colors",
+                          active === index
+                            ? "bg-white text-brass-deep shadow-soft ring-brass"
+                            : "bg-white/85 text-muted ring-line hover:text-ink",
+                        )}
+                      >
+                        {entry.label}
+                      </motion.button>
+                    </div>
+                  ))}
+                </motion.div>
+
+                <svg
+                  viewBox="0 0 22 16"
+                  aria-hidden
+                  className="absolute -top-5 left-1/2 h-4 w-5.5 -translate-x-1/2 md:-top-[3.75rem]"
+                >
+                  <path
+                    d="M1 1 H21 L11 15 Z"
+                    fill="#c9a66b"
+                    stroke="#8a6834"
+                    strokeWidth="1.2"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+          </Container>
         </div>
-      </Container>
+      </div>
     </Section>
   );
 }

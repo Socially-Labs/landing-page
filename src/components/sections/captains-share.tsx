@@ -20,14 +20,14 @@ export function CaptainsShare() {
             }
             lede="Captains earn 10% of the new profit they make for you. If your vault doesn’t grow past its last high, they earn nothing."
           />
-          <Reveal className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 rounded-card bg-pearl p-6 ring-1 ring-line">
+          <Reveal className="grid gap-4 rounded-card bg-pearl p-6 ring-1 ring-line sm:grid-cols-[1fr_auto_1fr] sm:items-center">
             <div className="flex flex-col gap-1">
               <span className="text-sm text-muted">Your vault grows</span>
               <span className="font-display text-[1.5rem] text-ink tabular-nums">
                 $1,000 → $1,100
               </span>
             </div>
-            <span aria-hidden className="h-12 w-px bg-line" />
+            <span aria-hidden className="h-px w-full bg-line sm:h-12 sm:w-px" />
             <div className="flex flex-col gap-1">
               <span className="text-sm text-muted">The Captain earns</span>
               <span className="font-display text-[1.5rem] text-brass-deep tabular-nums">$10</span>

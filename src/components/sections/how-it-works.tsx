@@ -71,7 +71,7 @@ export function HowItWorks() {
   }, [active, autoplay]);
 
   return (
-    <Section id="how" className="py-24 md:py-28">
+    <Section id="how" className="overflow-x-clip py-24 md:py-28">
       <Container>
         <div
           ref={sectionRef}
@@ -191,7 +191,7 @@ export function HowItWorks() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4, ease: EASE }}
                 aria-live="polite"
-                className="absolute bottom-[14%] left-1/2 flex -translate-x-[95%] items-center gap-3 rounded-2xl px-4 py-3 panel sm:-translate-x-[110%]"
+                className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-3 rounded-2xl px-4 py-3 panel sm:bottom-[14%] sm:-translate-x-[110%]"
               >
                 <span className="grid size-8.5 place-items-center rounded-full bg-ice text-brass-deep">
                   <step.Icon aria-hidden className="size-4" />

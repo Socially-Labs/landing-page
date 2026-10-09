@@ -41,7 +41,35 @@ export function Comparison() {
             </>
           }
         />
-        <Reveal className="overflow-x-auto rounded-panel panel">
+        <ul className="flex flex-col gap-4 md:hidden">
+          {rows.map((row) => (
+            <li key={row.label}>
+              <Reveal className="rounded-card p-5 panel">
+                <h3 className="font-semibold text-ink">{row.label}</h3>
+                <div className="mt-3 flex flex-col gap-1 rounded-xl bg-ice px-4 py-3">
+                  <span className="eyebrow text-brass-deep">Socially</span>
+                  <span className="flex items-start gap-2 font-semibold text-ink">
+                    <Check
+                      aria-hidden
+                      className="mt-1 size-4 flex-none text-brass-deep"
+                      strokeWidth={2.5}
+                    />
+                    {row.socially}
+                  </span>
+                </div>
+                <dl className="mt-4 flex flex-col gap-2 text-sm">
+                  {columns.map((column, index) => (
+                    <div key={column} className="flex justify-between gap-4">
+                      <dt className="text-muted">{column}</dt>
+                      <dd className="text-right text-ink-soft">{row.others[index]}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+        <Reveal className="hidden overflow-x-auto rounded-panel panel md:block">
           <table className="w-full min-w-[52rem] border-collapse text-left text-[0.9375rem]">
             <thead>
               <tr>
