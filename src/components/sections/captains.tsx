@@ -9,7 +9,7 @@ import { scenes } from "./scenes";
 
 /** Brass threads between the cards, as in the app's Discover artwork. */
 function Threads() {
-  const paths = ["M24 50 Q 48 24 76 20", "M24 50 Q 46 70 68 76", "M76 20 Q 86 50 68 76"];
+  const paths = ["M23 46 Q 48 22 77 19", "M23 46 Q 46 72 74 78", "M77 19 Q 90 50 74 78"];
   return (
     <svg
       aria-hidden
@@ -64,16 +64,16 @@ export function Captains() {
 
         <div className="relative flex flex-col gap-4 lg:h-[680px]">
           <Threads />
-          <CaptainCard captain={solstice} className="lg:absolute lg:top-0 lg:right-0 lg:w-[46%]" />
+          <CaptainCard captain={solstice} className="lg:absolute lg:top-0 lg:right-0 lg:w-[45%]" />
           <CaptainCard
             captain={northstar}
             floatDelay={1.6}
-            className="lg:absolute lg:top-[29%] lg:left-0 lg:w-[48%]"
+            className="lg:absolute lg:top-[24%] lg:left-0 lg:w-[46%]"
           />
           <CaptainCard
             captain={atlas}
             floatDelay={3.2}
-            className="lg:absolute lg:right-[4%] lg:bottom-0 lg:w-[56%]"
+            className="lg:absolute lg:right-0 lg:bottom-0 lg:w-[51%]"
           />
         </div>
       </Container>

@@ -77,11 +77,11 @@ export function CaptainCard({
               transition={{ duration: 0.22 }}
               className="flex h-full flex-col gap-2"
             >
-              <div className="flex items-baseline justify-between gap-3">
+              <div className="flex flex-col gap-1">
                 <span className="text-[2rem] leading-none font-semibold text-mint-glow">
                   {captain.returnPct}
                 </span>
-                <span className="text-right text-xs text-on-navy-muted">
+                <span className="text-xs text-on-navy-muted">
                   90D return ·{" "}
                   <span className="text-coral-glow">{captain.drawdownPct} max drawdown</span>
                 </span>
