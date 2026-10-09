@@ -14,6 +14,14 @@ const questions = [
     a: "No. A Captain can only buy and sell inside your vault. There is no way for a Captain to withdraw or send your money anywhere, including to themselves.",
   },
   {
+    q: "What is a vault?",
+    a: "A shared account that holds the Crew’s money for one Captain. It runs on Solana under the five articles: the Captain can trade inside it, and only Crew can take money out. You own a share of it in proportion to what you put in.",
+  },
+  {
+    q: "What does “keep your keys” mean?",
+    a: "Your money is never handed to Socially or to the Captain. When you sign up with email or Google, a wallet is created that only you control, and only you can approve taking money out of a vault.",
+  },
+  {
     q: "Can I lose money?",
     a: "Yes. Captains can make losing trades, which is why every return is shown next to its worst drop. Socially stops a Captain from taking your money, not from trading badly.",
   },
@@ -23,7 +31,7 @@ const questions = [
   },
   {
     q: "How much does it cost?",
-    a: "Captains earn 10% of new profit, and only when your vault grows past its last high. There are no joining, monthly or leaving fees.",
+    a: "You pay 10% of new profit, and only when your vault grows past its last high. The Captain gets 8 of those 10 points and Socially gets 2. There are no joining, monthly or leaving fees.",
   },
   {
     q: "How do I take my money out?",

@@ -105,7 +105,7 @@ export const captains: Captain[] = [
 
 export const stats = [
   { label: "Active Captains", value: 128, prefix: "", suffix: "", note: "+14 this month" },
-  { label: "Crew members", value: 5420, prefix: "", suffix: "", note: "+18% this month" },
+  { label: "Crew members", value: 2860, prefix: "", suffix: "", note: "+18% this month" },
   { label: "Trades made", value: 48920, prefix: "", suffix: "", note: "1,340 this week" },
   { label: "Volume traded", value: 24.6, prefix: "$", suffix: "M", note: "+$3.1M this month" },
 ];

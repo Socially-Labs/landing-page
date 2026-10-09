@@ -5,13 +5,11 @@ import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 
-/* Counts are placeholders until the channels launch; links go live with them. */
+/* Links go live with the channels. */
 const channels = [
   {
     Logo: XLogo,
     name: "X",
-    count: "12.4K",
-    unit: "followers",
     note: "Launch news and Captain spotlights.",
     cta: "Follow on X",
     href: "#",
@@ -19,8 +17,6 @@ const channels = [
   {
     Logo: DiscordLogo,
     name: "Discord",
-    count: "3.1K",
-    unit: "members",
     note: "Talk strategy with Captains and Crew.",
     cta: "Join the Discord",
     href: "#",
@@ -28,8 +24,6 @@ const channels = [
   {
     Logo: TelegramLogo,
     name: "Telegram",
-    count: "2.2K",
-    unit: "members",
     note: "Announcements, straight to your phone.",
     cta: "Join on Telegram",
     href: "#",
@@ -77,7 +71,7 @@ export function Community() {
           lede="Launch news, Captain spotlights and early access. Pick the channel you like best."
         />
         <div className="grid gap-5 md:grid-cols-3">
-          {channels.map(({ Logo, name, count, unit, note, cta, href }, index) => (
+          {channels.map(({ Logo, name, note, cta, href }, index) => (
             <Reveal key={name} delay={index * 0.06}>
               <a
                 href={href}
@@ -93,15 +87,8 @@ export function Community() {
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-display text-[2.25rem] leading-none text-ink">
-                      {count}
-                    </span>
-                    <span className="text-sm text-muted">{unit}</span>
-                  </div>
-                  <span className="text-[0.9375rem] text-ink-soft">
-                    <b className="font-semibold text-ink">{name}.</b> {note}
-                  </span>
+                  <span className="font-display text-[1.75rem] leading-none text-ink">{name}</span>
+                  <span className="text-[0.9375rem] text-ink-soft">{note}</span>
                 </div>
                 <span className="mt-auto text-sm font-semibold text-brass-deep">{cta} →</span>
               </a>

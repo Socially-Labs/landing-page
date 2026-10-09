@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { FeeCalculator } from "./fee-calculator";
 
 const noFees = ["Joining fee", "Monthly fee", "Leaving fee"];
 
@@ -18,20 +19,10 @@ export function CaptainsShare() {
                 One fee. <em>Only when you profit.</em>
               </>
             }
-            lede="Captains earn 10% of the new profit they make for you. If your vault doesn’t grow past its last high, they earn nothing."
+            lede="You pay 10% of the new profit a Captain makes for you. If your vault doesn’t grow past its last high, nobody is paid."
           />
-          <Reveal className="grid gap-4 rounded-card bg-pearl p-6 ring-1 ring-line sm:grid-cols-[1fr_auto_1fr] sm:items-center">
-            <div className="flex flex-col gap-1">
-              <span className="text-sm text-muted">Your vault grows</span>
-              <span className="font-display text-[1.5rem] text-ink tabular-nums">
-                $1,000 → $1,100
-              </span>
-            </div>
-            <span aria-hidden className="h-px w-full bg-line sm:h-12 sm:w-px" />
-            <div className="flex flex-col gap-1">
-              <span className="text-sm text-muted">The Captain earns</span>
-              <span className="font-display text-[1.5rem] text-brass-deep tabular-nums">$10</span>
-            </div>
+          <Reveal>
+            <FeeCalculator />
           </Reveal>
         </div>
 
@@ -43,6 +34,20 @@ export function CaptainsShare() {
                 10%
               </span>
               <span className="eyebrow text-muted">of new profit, nothing else</span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex h-2.5 overflow-hidden rounded-full">
+                <span className="w-4/5 bg-brass" />
+                <span className="w-1/5 bg-steel/60" />
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-ink">
+                  <b className="font-semibold">8%</b> to the Captain
+                </span>
+                <span className="text-ink-soft">
+                  <b className="font-semibold text-ink">2%</b> to Socially
+                </span>
+              </div>
             </div>
             <ul className="flex flex-col">
               {noFees.map((fee) => (
@@ -56,7 +61,8 @@ export function CaptainsShare() {
               ))}
             </ul>
             <p className="text-sm text-muted">
-              Paid to the Captain in vault shares, never taken as cash.
+              Paid in vault shares, never taken out as cash. If your vault dips and recovers, no fee
+              is due until it passes its last high.
             </p>
           </div>
         </Reveal>

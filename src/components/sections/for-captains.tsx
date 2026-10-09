@@ -17,13 +17,13 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/cn";
 
-/** One entry per handle, clockwise from north. Counts are samples before launch. */
+/** One entry per handle, clockwise from north: what a Captain gets and agrees to. */
 const helm = [
   {
     dir: "N",
     label: "Your share",
     value: "80%",
-    detail: "Of every fee your Crew pays, 80% is yours, paid in vault shares at each new high.",
+    detail: "Of every fee your Crew pays, you keep 80%. Socially keeps the other 20%.",
   },
   {
     dir: "NE",
@@ -33,40 +33,40 @@ const helm = [
   },
   {
     dir: "E",
-    label: "Your tools",
-    value: "App, bot, AI",
-    detail: "Trade in the app, or connect a bot or an AI agent. Every key has its own limits.",
+    label: "Paid in",
+    value: "Vault shares",
+    detail: "Your fee is paid in shares of your own vault, so you rise and fall with your Crew.",
   },
   {
     dir: "SE",
+    label: "Track record",
+    value: "Public",
+    detail: "Every trade you make is logged for anyone to see. Your record is your reputation.",
+  },
+  {
+    dir: "S",
+    label: "Risk limits",
+    value: "Built in",
+    detail:
+      "If your vault falls too far, new risky trades pause. It protects your Crew and your record.",
+  },
+  {
+    dir: "SW",
     label: "Ranks",
     value: "3",
     detail: "Rise from New Captain to Proven Captain to Admiral as your public record grows.",
   },
   {
-    dir: "S",
-    label: "Trades",
-    value: "48,920",
-    detail:
-      "Placed by Captains so far. Every one stays public, the losing ones too. Sample figure.",
-  },
-  {
-    dir: "SW",
-    label: "Captains",
-    value: "128",
-    detail: "Captains already trading for a Crew. Sample figure before launch.",
-  },
-  {
     dir: "W",
-    label: "Crew",
-    value: "5,420",
-    detail: "People waiting to join a vault. Sample figure before launch.",
+    label: "Your tools",
+    value: "App, bot, AI",
+    detail: "Trade in the app, or connect a bot or an AI agent. Every key has its own limits.",
   },
   {
     dir: "NW",
-    label: "Volume",
-    value: "$24.6M",
-    detail: "Traded by Captains so far. Sample figure before launch.",
+    label: "Review",
+    value: "Vetted",
+    detail: "We review every application before your vault opens to Crew.",
   },
 ];
 
@@ -151,7 +151,14 @@ export function ForCaptains() {
                     transition={{ duration: 0.3, ease: "easeOut" }}
                     aria-live="polite"
                   >
-                    <p className="mt-4 font-display text-[clamp(2.75rem,5vw,4.25rem)] leading-none text-ink">
+                    <p
+                      className={cn(
+                        "mt-4 font-display leading-none text-ink",
+                        item.value.length > 8
+                          ? "text-[clamp(2.25rem,3.6vw,3.25rem)]"
+                          : "text-[clamp(2.75rem,5vw,4.25rem)]",
+                      )}
+                    >
                       {item.value}
                     </p>
                     <p className="mt-3 font-semibold text-ink">{item.label}</p>

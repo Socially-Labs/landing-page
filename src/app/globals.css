@@ -152,3 +152,55 @@
   outline: 1px solid rgb(201 166 107 / 0.28);
   outline-offset: -8px;
 }
+
+/* A range input with a brass coin for a thumb. Set --fill (a percentage) for the filled track. */
+@layer components {
+  .range-brass {
+    appearance: none;
+    width: 100%;
+    height: 1.75rem;
+    background: transparent;
+    cursor: pointer;
+  }
+  .range-brass::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      var(--color-brass) var(--fill, 50%),
+      var(--color-line) var(--fill, 50%)
+    );
+  }
+  .range-brass::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      var(--color-brass) var(--fill, 50%),
+      var(--color-line) var(--fill, 50%)
+    );
+  }
+  .range-brass::-webkit-slider-thumb {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    margin-top: -9px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f4e3b8, #c9a66b 55%, #8a6834);
+    box-shadow: 0 2px 6px rgb(138 104 52 / 0.45);
+  }
+  .range-brass::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f4e3b8, #c9a66b 55%, #8a6834);
+    box-shadow: 0 2px 6px rgb(138 104 52 / 0.45);
+  }
+  .range-brass:focus-visible {
+    outline: 2px solid var(--color-steel);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
+}

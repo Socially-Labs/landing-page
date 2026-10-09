@@ -75,10 +75,10 @@ export function TopCaptains() {
             eyebrow="Port of Captains"
             title={
               <>
-                Top Captains <em>right now.</em>
+                Top Captains, <em>side by side.</em>
               </>
             }
-            lede="Every return sits beside its worst drop for the same period."
+            lede="Every return sits beside its worst drop: the biggest fall from a high in the same period."
           />
           <Reveal className="flex flex-wrap items-center gap-5">
             <PeriodPicker value={period} onChange={setPeriod} />
@@ -86,7 +86,7 @@ export function TopCaptains() {
               href="#join"
               className="inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold text-ink hover:text-brass-deep"
             >
-              See all in the app <ArrowRight aria-hidden className="size-4" />
+              Get early access <ArrowRight aria-hidden className="size-4" />
             </a>
           </Reveal>
         </div>
@@ -246,8 +246,8 @@ export function TopCaptains() {
             <div className="flex items-center justify-between pb-4">
               <span className="eyebrow text-brass-deep">Ship’s log</span>
               <span className="flex items-center gap-2 text-xs text-muted">
-                <span aria-hidden className="size-2 animate-pulse-dot rounded-full bg-mint" />
-                Live
+                <span aria-hidden className="size-2 rounded-full bg-brass" />
+                Sample
               </span>
             </div>
             <ul className="flex flex-col">

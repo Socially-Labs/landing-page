@@ -1,9 +1,16 @@
-import { ArrowRight, ShieldCheck } from "lucide-react";
-import { EmblemMark } from "@/components/ornaments/emblem-mark";
+"use client";
+
+import { motion, useInView, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { WaxSeal } from "@/components/ornaments/wax-seal";
 import { Container } from "@/components/ui/container";
-import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { cn } from "@/lib/cn";
+import { VaultScene } from "./vault-scene";
+
+/** Long enough to watch the coin travel twice and read the caption. */
+const ARTICLE_MS = 7000;
 
 const articles = [
   {
@@ -33,61 +40,110 @@ const articles = [
   },
 ];
 
-/** Safety, written as a pirate crew's articles: plain promises, no machinery. */
+/**
+ * Safety, written as a pirate crew's articles. Each article plays out in the vault beside it:
+ * you, the vault and the Captain, and what can and can't move between them.
+ */
 export function TheCode() {
-  return (
-    <Section id="safety" tone="pearl" className="relative overflow-hidden py-24 md:py-32">
-      <EmblemMark className="pointer-events-none absolute top-1/2 -right-48 hidden size-[42rem] -translate-y-1/2 opacity-[0.06] lg:block" />
-      <Container className="relative grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
-        <div className="flex flex-col gap-10 lg:sticky lg:top-28 lg:self-start">
-          <SectionHeading
-            eyebrow="The Code"
-            title={
-              <>
-                Captains trade your money. <em>They can never take it.</em>
-              </>
-            }
-            lede="Every vault on Socially sails under the same five articles. No Captain can rewrite them."
-          />
-          <Reveal className="flex items-center gap-5">
-            <div className="grid size-20 flex-none place-items-center rounded-full bg-white frame-brass">
-              <ShieldCheck aria-hidden className="size-7 text-brass-deep" strokeWidth={1.5} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="eyebrow text-brass-deep">Independent audit</span>
-              <span className="text-sm text-ink-soft">
-                In progress. The report will be published here.
-              </span>
-              <a
-                href="#faq"
-                className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-ink hover:text-brass-deep"
-              >
-                How protection works <ArrowRight aria-hidden className="size-4" />
-              </a>
-            </div>
-          </Reveal>
-        </div>
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const areaRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(areaRef, { amount: 0.4 });
+  const autoplay = inView && !paused && !reduceMotion;
 
-        <Reveal className="rounded-[28px] bg-white p-2 shadow-soft frame-brass">
-          <ol className="px-6 py-1 md:px-10">
-            {articles.map((article) => (
-              <li
-                key={article.numeral}
-                className="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-b border-brass/20 py-7 last:border-b-0 md:grid-cols-[4rem_minmax(0,1fr)]"
-              >
-                <span className="font-display text-[1.875rem] leading-none text-brass-deep italic">
-                  {article.numeral}
-                </span>
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="font-display text-[1.375rem] leading-tight text-ink">
-                    {article.title}
-                  </h3>
-                  <p className="text-[0.9375rem]/relaxed text-ink-soft">{article.body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </Reveal>
+  useEffect(() => {
+    if (!autoplay) return;
+    const timer = setTimeout(() => setActive((index) => (index + 1) % articles.length), ARTICLE_MS);
+    return () => clearTimeout(timer);
+  }, [active, autoplay]);
+
+  return (
+    <Section id="safety" tone="pearl" className="py-24 md:py-32">
+      <Container className="flex flex-col gap-12 lg:gap-14">
+        <SectionHeading
+          eyebrow="The Ship’s Articles"
+          title={
+            <>
+              Captains trade your money. <em>They can never take it.</em>
+            </>
+          }
+          lede="You’re the Crew. A Captain is a vetted trader. Your money sits in a vault on Solana that obeys five articles, and no Captain can rewrite them."
+        />
+
+        <div
+          ref={areaRef}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+          className="grid items-start gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-12"
+        >
+          <div className="relative order-2 rounded-[28px] bg-[#fdfbf6] p-2 shadow-soft frame-brass lg:order-1">
+            <WaxSeal
+              motto="SEALED IN CODE · SOCIALLY ·"
+              className="absolute -top-9 -right-3 z-10 size-22 -rotate-12 sm:-top-11 sm:-right-8 sm:size-26"
+            />
+            <ol className="px-3 py-2 sm:px-5">
+              {articles.map((article, index) => {
+                const current = index === active;
+                return (
+                  <li key={article.numeral} className="border-b border-brass/20 last:border-b-0">
+                    <button
+                      type="button"
+                      aria-pressed={current}
+                      onClick={() => setActive(index)}
+                      className={cn(
+                        "relative grid w-full grid-cols-[2.75rem_minmax(0,1fr)] gap-4 rounded-2xl px-3 py-5 text-left transition-colors duration-500 sm:grid-cols-[3.5rem_minmax(0,1fr)]",
+                        current ? "bg-white" : "hover:bg-white/60",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "font-display text-[1.75rem] leading-none italic transition-colors duration-500",
+                          current ? "text-brass-deep" : "text-brass/60",
+                        )}
+                      >
+                        {article.numeral}
+                      </span>
+                      <span className="flex flex-col gap-1">
+                        <span
+                          className={cn(
+                            "font-display text-[1.3125rem] leading-tight transition-colors duration-500",
+                            current ? "text-ink" : "text-ink/70",
+                          )}
+                        >
+                          {article.title}
+                        </span>
+                        <span className="text-[0.9375rem]/relaxed text-ink-soft">
+                          {article.body}
+                        </span>
+                      </span>
+                      {current && autoplay && (
+                        <motion.span
+                          key={`progress-${active}`}
+                          aria-hidden
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: ARTICLE_MS / 1000, ease: "linear" }}
+                          className="absolute inset-x-3 bottom-0 h-px origin-left bg-brass"
+                        />
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+
+          <div className="order-1 flex flex-col gap-4 lg:sticky lg:top-24 lg:order-2">
+            <VaultScene index={active} />
+            <p className="px-2 text-xs text-muted">
+              Sample amounts. An independent audit is under way; the report will be published before
+              launch.
+            </p>
+          </div>
+        </div>
       </Container>
     </Section>
   );

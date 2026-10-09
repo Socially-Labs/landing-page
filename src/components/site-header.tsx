@@ -9,9 +9,9 @@ import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/cn";
 
 const links = [
+  { href: "#safety", label: "Safety" },
   { href: "#how", label: "How it works" },
   { href: "#captains", label: "Captains" },
-  { href: "#safety", label: "Safety" },
   { href: "#fees", label: "Fees" },
   { href: "#faq", label: "FAQ" },
 ];

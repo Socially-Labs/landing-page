@@ -19,9 +19,9 @@ export default function Home() {
       <SiteHeader />
       <main>
         <Hero />
-        <Stats />
-        <HowItWorks />
         <TheCode />
+        <HowItWorks />
+        <Stats />
         <TopCaptains />
         <CaptainProfile />
         <CaptainsShare />

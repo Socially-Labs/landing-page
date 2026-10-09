@@ -36,7 +36,7 @@ function CountUp({ stat }: { stat: Stat }) {
   );
 }
 
-/** Headline numbers and the ship's log: proof the product is busy. */
+/** A preview of the public ledger: headline numbers and the ship's log, with sample figures. */
 export function Stats() {
   const log = [...shipsLog, ...shipsLog];
 
@@ -51,10 +51,11 @@ export function Stats() {
                 Trading together, <em>in the open.</em>
               </>
             }
+            lede="Once we launch, every Captain’s results and trades are public. This preview uses sample figures."
           />
           <Reveal className="flex w-fit items-center gap-2.5 rounded-full border border-ink/10 bg-white px-4 py-2 text-sm text-ink-soft">
-            <span aria-hidden className="size-2 animate-pulse-dot rounded-full bg-mint" />
-            Live · updated every minute
+            <span aria-hidden className="size-2 rounded-full bg-brass" />
+            Preview · sample figures
           </Reveal>
         </div>
 
@@ -104,7 +105,6 @@ export function Stats() {
               ))}
             </ul>
           </div>
-          <p className="text-xs text-muted">Illustrative figures before launch.</p>
         </div>
       </Container>
     </Section>
