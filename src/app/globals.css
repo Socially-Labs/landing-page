@@ -23,6 +23,10 @@
   --color-muted: #64758b;
   --color-steel: #45698c;
   --color-steel-tint: #e6eff8;
+  --color-steel-deep: #2a4770;
+  /* Primary button and active navigation gradient */
+  --color-helm: #344c6c;
+  --color-helm-deep: #1b304c;
   --color-on-navy: #f8fbff;
   --color-on-navy-muted: #b8cadc;
 

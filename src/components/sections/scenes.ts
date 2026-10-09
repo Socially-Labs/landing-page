@@ -10,7 +10,7 @@ export const scenes = {
     seaCover: 0.84,
     sunAz: 0.1,
     sunEl: 0.09,
-    boat: { x: 41, y: 76, size: 150 },
+    boat: { x: 54, y: 77, size: 150 },
     mobile: { horizon: 0.7, sunAz: 0.16, sunEl: 0.1, boat: { x: 70, y: 84, size: 92 } },
   },
 } satisfies Record<string, SkySceneConfig>;
