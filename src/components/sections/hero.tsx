@@ -4,7 +4,6 @@ import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { captains } from "@/lib/sample-data";
-import { HeroVisual } from "./hero-visual";
 
 /*
  * The entrance uses CSS animation rather than Motion so it plays on first paint, before
@@ -13,13 +12,8 @@ import { HeroVisual } from "./hero-visual";
 export function Hero() {
   return (
     <Section id="top" className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(50%_55%_at_76%_42%,#e4edf5_0%,rgb(238_243_249/0.6)_45%,transparent_75%)]"
-      />
-
-      <Container className="relative grid min-h-svh items-center gap-14 pt-32 pb-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:pt-24">
-        <div className="flex flex-col gap-7">
+      <Container className="flex min-h-svh flex-col justify-center gap-10 pt-28 pb-14 md:pt-32 md:pb-24">
+        <div className="relative z-10 flex flex-col gap-7">
           <p className="flex animate-rise items-center gap-3 eyebrow text-brass-deep">
             <span aria-hidden className="h-px w-8 bg-brass" />
             Social trading on Solana
@@ -62,7 +56,28 @@ export function Hero() {
           </div>
         </div>
 
-        <HeroVisual />
+        {/* A framed picture under the copy on phones; from md up, the backdrop of the hero */}
+        <div className="relative aspect-[4/3] overflow-hidden rounded-panel shadow-soft md:absolute md:inset-0 md:aspect-auto md:rounded-none md:shadow-none">
+          <Image
+            src="/art/captain-helm.webp"
+            alt="A captain at the helm of a ship, sailing into harbour"
+            fill
+            sizes="(min-width: 768px) 100vw, 92vw"
+            loading="eager"
+            fetchPriority="high"
+            className="object-cover object-[72%_center] md:object-[70%_center]"
+          />
+          {/* Pearl from the top left, where the copy sits, clearing toward the captain */}
+          <div
+            aria-hidden
+            className="absolute inset-0 hidden bg-[linear-gradient(115deg,rgb(245_247_251/0.97)_0%,rgb(245_247_251/0.9)_30%,rgb(245_247_251/0.4)_52%,rgb(245_247_251/0)_70%)] md:block"
+          />
+          {/* Hands the picture over to the pearl section below */}
+          <div
+            aria-hidden
+            className="absolute inset-x-0 bottom-0 hidden h-28 bg-[linear-gradient(180deg,transparent,var(--color-pearl))] md:block"
+          />
+        </div>
       </Container>
     </Section>
   );
