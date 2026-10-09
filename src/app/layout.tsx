@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Providers } from "@/components/providers";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -29,7 +30,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable} antialiased`}>
-      <body className="min-h-svh">{children}</body>
+      <body className="min-h-svh">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
