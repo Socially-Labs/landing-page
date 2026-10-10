@@ -69,25 +69,25 @@ export const scenes: Scene[] = [
   },
 ];
 
-const COIN_SECONDS = 1.6;
+const PULSE_SECONDS = 1.4;
 
-/** The line between two parties, with a coin that travels it on a loop. */
+/** The line between two parties, with a soft pulse of light that travels it on a loop. */
 function Line({ flow, active }: { flow: Flow; active: boolean }) {
   const reduceMotion = useReducedMotion();
-  // A stopped coin halts just short of the lock or pause in the middle of the line.
+  // A stopped pulse fades out just short of the lock or pause in the middle of the line.
   const end = flow.stop ? (flow.from ? 0.58 : 0.42) : flow.to;
 
   return (
-    // Down the page on phones, across from sm up. The coin rides --p, from 0 to 1 along it.
+    // Down the page on phones, across from sm up. The pulse rides --p, from 0 to 1 along it.
     <div className="relative h-16 w-full sm:h-16 sm:w-auto sm:min-w-10 sm:flex-1">
       <span
         aria-hidden
         className={cn(
-          "absolute inset-y-0 left-1/2 border-l border-dashed transition-colors duration-500 sm:inset-x-0 sm:inset-y-auto sm:top-1/2 sm:left-0 sm:border-t sm:border-l-0",
-          active ? "border-brass" : "border-ink/15",
+          "absolute inset-y-0 left-1/2 border-l transition-colors duration-700 sm:inset-x-0 sm:inset-y-auto sm:top-1/2 sm:left-0 sm:border-t sm:border-l-0",
+          active ? "border-brass/70" : "border-ink/12",
         )}
       />
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {active && (
           <motion.div
             key={`${flow.label}-${flow.from}`}
@@ -99,19 +99,19 @@ function Line({ flow, active }: { flow: Flow; active: boolean }) {
           >
             <span
               className={cn(
-                "absolute top-1/2 left-[calc(50%+1.5rem)] -translate-y-1/2 rounded-full px-2 py-0.5 text-[0.6875rem] font-semibold whitespace-nowrap sm:top-0 sm:left-1/2 sm:-translate-x-1/2 sm:translate-y-0",
+                "absolute top-1/2 left-[calc(50%+1.25rem)] -translate-y-1/2 eyebrow text-[0.625rem] whitespace-nowrap sm:top-1 sm:left-1/2 sm:-translate-x-1/2 sm:translate-y-0",
                 flow.stop === "lock"
-                  ? "bg-coral-tint text-coral"
+                  ? "text-coral"
                   : flow.stop === "pause"
-                    ? "bg-amber-tint text-amber"
-                    : "bg-white text-brass-deep ring-1 ring-brass/40",
+                    ? "text-amber"
+                    : "text-brass-deep",
               )}
             >
               {flow.stop === "lock" ? "Refused" : flow.stop === "pause" ? "Paused" : flow.label}
             </span>
             <motion.span
               aria-hidden
-              className="absolute top-[calc(var(--p)*100%)] left-1/2 -mt-2 -ml-2 size-4 rounded-full bg-[radial-gradient(circle_at_35%_30%,#f4e3b8,#c9a66b_55%,#8a6834)] shadow-[0_2px_6px_rgb(138_104_52/0.45)] sm:top-1/2 sm:left-[calc(var(--p)*100%)]"
+              className="absolute top-[calc(var(--p)*100%)] left-1/2 h-12 w-0.5 -translate-1/2 rounded-full bg-[linear-gradient(180deg,transparent,#b08a4f,transparent)] sm:top-1/2 sm:left-[calc(var(--p)*100%)] sm:h-0.5 sm:w-14 sm:bg-[linear-gradient(90deg,transparent,#b08a4f,transparent)]"
               initial={{ "--p": flow.from, opacity: 0 }}
               animate={
                 reduceMotion
@@ -122,15 +122,15 @@ function Line({ flow, active }: { flow: Flow; active: boolean }) {
                 reduceMotion
                   ? { duration: 0 }
                   : {
-                      duration: COIN_SECONDS,
-                      ease: [0.45, 0, 0.25, 1],
+                      duration: PULSE_SECONDS,
+                      ease: [0.65, 0, 0.35, 1],
                       repeat: Infinity,
-                      repeatDelay: 0.9,
+                      repeatDelay: 1.2,
                       opacity: {
-                        duration: COIN_SECONDS,
-                        times: [0, 0.12, 0.85, 1],
+                        duration: PULSE_SECONDS,
+                        times: [0, 0.2, 0.75, 1],
                         repeat: Infinity,
-                        repeatDelay: 0.9,
+                        repeatDelay: 1.2,
                       },
                     }
               }
@@ -138,14 +138,14 @@ function Line({ flow, active }: { flow: Flow; active: boolean }) {
             {flow.stop && (
               <span
                 className={cn(
-                  "absolute top-1/2 left-1/2 grid size-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white ring-1",
+                  "absolute top-1/2 left-1/2 grid size-6 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white ring-1",
                   flow.stop === "lock" ? "text-coral ring-coral/40" : "text-amber ring-amber/40",
                 )}
               >
                 {flow.stop === "lock" ? (
-                  <Lock aria-hidden className="size-3.5" />
+                  <Lock aria-hidden className="size-3" />
                 ) : (
-                  <Pause aria-hidden className="size-3.5" />
+                  <Pause aria-hidden className="size-3" />
                 )}
               </span>
             )}
@@ -189,7 +189,7 @@ export function VaultScene({ index }: { index: number }) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   transition={{ delay: 0.9, duration: 0.3 }}
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-mint-tint px-2 py-0.5 text-[0.6875rem] font-semibold whitespace-nowrap text-mint"
+                  className="absolute -top-5 left-1/2 -translate-x-1/2 eyebrow text-[0.625rem] whitespace-nowrap text-mint"
                 >
                   +1,000 USDC
                 </motion.span>
