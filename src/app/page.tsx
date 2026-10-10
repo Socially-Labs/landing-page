@@ -10,6 +10,7 @@ import { HowItWorks } from "@/components/sections/how-it-works";
 import { Stats } from "@/components/sections/stats";
 import { TheCode } from "@/components/sections/the-code";
 import { TopCaptains } from "@/components/sections/top-captains";
+import { Voyage } from "@/components/sections/voyage";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -25,6 +26,7 @@ export default function Home() {
         <TopCaptains />
         <CaptainProfile />
         <CaptainsShare />
+        <Voyage />
         <ForCaptains />
         <Comparison />
         <Community />

@@ -5,16 +5,15 @@ import { X_HANDLE, X_URL } from "@/lib/links";
 
 const groups = [
   { title: "Product", links: ["How it works", "Captains", "Safety", "Fees"] },
-  { title: "Resources", links: ["Docs", "Audits", "Status", "Brand kit"] },
+  { title: "Resources", links: ["Docs"] },
   { title: "Company", links: ["About", "Contact"] },
-  { title: "Legal", links: ["Terms", "Privacy", "Risk disclosure", "Cookies"] },
 ];
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-line bg-white text-ink">
       <Container className="flex flex-col gap-12 py-14">
-        <div className="grid gap-10 md:grid-cols-[minmax(0,1.4fr)_repeat(4,minmax(0,1fr))]">
+        <div className="grid gap-10 md:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))]">
           <div className="flex flex-col gap-4">
             <span className="flex items-center gap-3">
               <Image
