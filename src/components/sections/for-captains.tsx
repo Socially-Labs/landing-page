@@ -59,22 +59,20 @@ const TURN_MS = 4200;
 
 /**
  * The helm turns itself, one handle at a time, while it's on screen. The bearing under the
- * pointer is named above the wheel; its figure and meaning sit beside it. Hovering holds the
- * wheel still; clicking it turns to the next handle.
+ * pointer is named above the wheel; its figure and meaning sit beside it.
  */
 export function ForCaptains() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { amount: 0.35 });
   const reduceMotion = useReducedMotion();
   const [turns, setTurns] = useState(0);
-  const [held, setHeld] = useState(false);
   const item = helm[turns % helm.length];
 
   useEffect(() => {
-    if (!inView || held || reduceMotion) return;
+    if (!inView || reduceMotion) return;
     const timer = setTimeout(() => setTurns((count) => count + 1), TURN_MS);
     return () => clearTimeout(timer);
-  }, [turns, inView, held, reduceMotion]);
+  }, [turns, inView, reduceMotion]);
 
   // Always turning the same way, so the wheel never spins back past the handles.
   const turn = useSpring(0, { stiffness: 38, damping: 13, mass: 1.1 });
@@ -91,7 +89,7 @@ export function ForCaptains() {
   };
 
   return (
-    <Section id="captain" tone="pearl" className="overflow-hidden py-24 md:py-28">
+    <Section id="captain" className="overflow-hidden py-24 md:py-28">
       <Container>
         <div
           ref={sectionRef}
@@ -129,15 +127,9 @@ export function ForCaptains() {
               />
             </svg>
 
-            <button
-              type="button"
-              aria-label={`Turn the wheel to the next bearing. Now showing: ${item.label}`}
-              onClick={() => setTurns((count) => count + 1)}
-              onMouseEnter={() => setHeld(true)}
-              onMouseLeave={() => setHeld(false)}
-              onFocus={() => setHeld(true)}
-              onBlur={() => setHeld(false)}
-              className="relative size-(--wheel) cursor-pointer rounded-full [--wheel:min(88vw,30rem)] focus-visible:outline-offset-8 lg:[--wheel:min(38rem,44vw)]"
+            <div
+              aria-hidden
+              className="relative size-(--wheel) rounded-full [--wheel:min(88vw,30rem)] lg:[--wheel:min(38rem,44vw)]"
             >
               <span aria-hidden className="absolute inset-[6%] rounded-full bg-ice" />
               <span className="absolute inset-0 drop-shadow-[0_22px_26px_rgb(24_43_67/0.22)]">
@@ -146,7 +138,7 @@ export function ForCaptains() {
                 </motion.span>
                 <WheelCompass className="absolute inset-0 size-full" />
               </span>
-            </button>
+            </div>
           </div>
 
           <div className="flex flex-col gap-10 lg:col-start-1 lg:row-start-2 lg:self-start">

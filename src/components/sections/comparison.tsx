@@ -31,7 +31,7 @@ const rows: { label: string; others: [string, string, string]; socially: string 
 
 export function Comparison() {
   return (
-    <Section className="py-24 md:py-32">
+    <Section tone="pearl" className="py-24 md:py-32">
       <Container className="flex flex-col gap-12">
         <SectionHeading
           eyebrow="Why Socially"

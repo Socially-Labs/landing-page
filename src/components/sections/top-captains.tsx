@@ -17,6 +17,7 @@ import {
   series,
   shipsLog,
   signedPercent,
+  stats,
   type Captain,
   type Period,
 } from "@/lib/sample-data";
@@ -63,12 +64,16 @@ function PeriodPicker({ value, onChange }: { value: Period; onChange: (p: Period
   );
 }
 
+function formatStat({ value, prefix, suffix }: (typeof stats)[number]) {
+  return `${prefix}${suffix === "M" ? value.toFixed(1) : value.toLocaleString("en-US")}${suffix}`;
+}
+
 export function TopCaptains() {
   const [period, setPeriod] = useState<Period>("90D");
   const ranked = [...captains].sort((a, b) => b.returns[period] - a.returns[period]);
 
   return (
-    <Section id="captains" className="py-24 md:py-32">
+    <Section id="captains" tone="ice" className="py-24 md:py-32">
       <Container className="flex flex-col gap-12">
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <SectionHeading
@@ -90,6 +95,18 @@ export function TopCaptains() {
             </a>
           </Reveal>
         </div>
+
+        <Reveal className="grid grid-cols-2 gap-px overflow-hidden rounded-card bg-line ring-1 ring-line lg:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex flex-col gap-1.5 bg-white px-5 py-5 sm:px-6">
+              <span className="eyebrow text-[0.6875rem] text-muted">{stat.label}</span>
+              <span className="font-display text-[clamp(1.625rem,2.4vw,2rem)] leading-none text-ink tabular-nums">
+                {formatStat(stat)}
+              </span>
+              <span className="text-xs text-mint">{stat.note}</span>
+            </div>
+          ))}
+        </Reveal>
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_21rem]">
           <Reveal className="overflow-hidden rounded-panel panel">

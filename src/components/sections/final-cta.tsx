@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
+import { X_HANDLE, X_URL } from "@/lib/links";
 import { WaitlistForm } from "./waitlist-form";
 
 export function FinalCta() {
@@ -34,6 +35,14 @@ export function FinalCta() {
           </p>
         </Reveal>
         <WaitlistForm />
+        <a
+          href={X_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="-mt-3 text-sm text-ink-soft transition-colors hover:text-ink"
+        >
+          News goes out first on X: <b className="font-semibold text-ink">{X_HANDLE}</b>
+        </a>
         <div className="flex flex-wrap gap-3">
           {["App Store", "Google Play"].map((store) => (
             <span
