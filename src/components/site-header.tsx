@@ -9,7 +9,6 @@ import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/cn";
 
 const links = [
-  { href: "#safety", label: "Safety" },
   { href: "#how", label: "How it works" },
   { href: "#captains", label: "Captains" },
   { href: "#fees", label: "Fees" },
@@ -50,12 +49,6 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <a
-              href="#captain"
-              className="hidden text-[0.9375rem] font-medium text-ink transition-colors hover:text-brass-deep md:inline"
-            >
-              For Captains
-            </a>
             <ButtonLink href="#join" size="sm" className="hidden sm:inline-flex">
               Join the waitlist
             </ButtonLink>
@@ -88,7 +81,7 @@ export function SiteHeader() {
             className="border-b border-line bg-white shadow-soft lg:hidden"
           >
             <Container className="flex flex-col gap-1 py-4">
-              {[...links, { href: "#captain", label: "For Captains" }].map((link) => (
+              {links.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
