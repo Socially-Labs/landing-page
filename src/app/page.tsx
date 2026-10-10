@@ -1,5 +1,3 @@
-import { existsSync } from "node:fs";
-import path from "node:path";
 import { CaptainsShare } from "@/components/sections/captains-share";
 import { Comparison } from "@/components/sections/comparison";
 import { Faq } from "@/components/sections/faq";
@@ -12,14 +10,18 @@ import { TheCode } from "@/components/sections/the-code";
 import { TopCaptains } from "@/components/sections/top-captains";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { SoundToggle } from "@/components/sound-toggle";
 
-/** A licensed track dropped here replaces the sea the sound button plays by default. */
-const THEME = "/audio/theme.mp3";
+/*
+ * Music is switched off for now. To bring it back, import SoundToggle from
+ * "@/components/sound-toggle" and render it after <SiteFooter />:
+ *
+ *   <SoundToggle src="/audio/theme.mp3" />
+ *
+ * With a licensed track at public/audio/theme.mp3 it plays that; leave `src` out and it plays
+ * the sea it makes in the browser.
+ */
 
 export default function Home() {
-  const hasTheme = existsSync(path.join(process.cwd(), "public", THEME));
-
   return (
     <>
       <SiteHeader />
@@ -36,7 +38,6 @@ export default function Home() {
         <FinalCta />
       </main>
       <SiteFooter />
-      <SoundToggle src={hasTheme ? THEME : undefined} />
     </>
   );
 }
