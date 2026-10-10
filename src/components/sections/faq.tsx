@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { X_URL } from "@/lib/links";
 
 /* Plain answers; the technical detail belongs in the docs. Review before launch. */
 const questions = [
@@ -66,8 +67,13 @@ export function Faq() {
             <a href="#" className="inline-flex items-center gap-1.5 hover:text-brass-deep">
               Read the docs <ArrowRight aria-hidden className="size-4" />
             </a>
-            <a href="#" className="inline-flex items-center gap-1.5 hover:text-brass-deep">
-              Ask in Discord <ArrowRight aria-hidden className="size-4" />
+            <a
+              href={X_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 hover:text-brass-deep"
+            >
+              Ask us on X <ArrowRight aria-hidden className="size-4" />
             </a>
           </div>
         </div>

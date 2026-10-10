@@ -1,34 +1,11 @@
 import { ArrowUpRight } from "lucide-react";
-import { DiscordLogo, Porthole, TelegramLogo, XLogo } from "@/components/ornaments/social-icons";
+import { Porthole, XLogo } from "@/components/ornaments/social-icons";
+import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
-
-/* Links go live with the channels. */
-const channels = [
-  {
-    Logo: XLogo,
-    name: "X",
-    note: "Launch news and Captain spotlights.",
-    cta: "Follow on X",
-    href: "#",
-  },
-  {
-    Logo: DiscordLogo,
-    name: "Discord",
-    note: "Talk strategy with Captains and Crew.",
-    cta: "Join the Discord",
-    href: "#",
-  },
-  {
-    Logo: TelegramLogo,
-    name: "Telegram",
-    note: "Announcements, straight to your phone.",
-    cta: "Join on Telegram",
-    href: "#",
-  },
-];
+import { X_HANDLE, X_URL } from "@/lib/links";
 
 /** Three gentle swells; the front one is white so the section runs straight into the next. */
 function Swells() {
@@ -57,44 +34,29 @@ function Swells() {
 
 export function Community() {
   return (
-    <Section className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#eef3f9_45%,#e4edf5_100%)] pt-24 pb-44 md:pt-28 md:pb-52">
-      <Container className="relative flex flex-col gap-12">
+    <Section className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#eef3f9_55%,#e4edf5_100%)] pt-24 pb-40 md:pt-28 md:pb-44">
+      <Container className="relative flex flex-col items-center gap-8 text-center">
+        <Reveal>
+          <Porthole className="size-16">
+            <XLogo className="size-6.5" />
+          </Porthole>
+        </Reveal>
         <SectionHeading
           align="center"
-          className="mx-auto"
           eyebrow="The crew"
           title={
             <>
-              Join the crew <em>before we set sail.</em>
+              Follow the voyage <em>on X.</em>
             </>
           }
-          lede="Launch news, Captain spotlights and early access. Pick the channel you like best."
+          lede="Launch news, Captain spotlights and early-access invites go out there first."
         />
-        <div className="grid gap-5 md:grid-cols-3">
-          {channels.map(({ Logo, name, note, cta, href }, index) => (
-            <Reveal key={name} delay={index * 0.06}>
-              <a
-                href={href}
-                className="group flex h-full flex-col gap-7 rounded-panel bg-white/90 p-7 ring-1 ring-line backdrop-blur transition-shadow hover:shadow-lift hover:ring-brass/50"
-              >
-                <div className="flex items-start justify-between">
-                  <Porthole>
-                    <Logo className="size-6" />
-                  </Porthole>
-                  <ArrowUpRight
-                    aria-hidden
-                    className="size-5 text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brass-deep"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="font-display text-[1.75rem] leading-none text-ink">{name}</span>
-                  <span className="text-[0.9375rem] text-ink-soft">{note}</span>
-                </div>
-                <span className="mt-auto text-sm font-semibold text-brass-deep">{cta} →</span>
-              </a>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal>
+          <ButtonLink href={X_URL} target="_blank" rel="noreferrer" size="md">
+            Follow {X_HANDLE}
+            <ArrowUpRight aria-hidden className="size-4" />
+          </ButtonLink>
+        </Reveal>
       </Container>
       <Swells />
     </Section>
