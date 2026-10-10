@@ -53,6 +53,7 @@
   /* Hero: the painting settles once, and headline lines rise out of a mask */
   --animate-settle: settle 2.6s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-unmask: unmask 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-eq: eq 0.9s ease-in-out infinite;
 
   @keyframes rise {
     from {
@@ -73,6 +74,15 @@
   @keyframes settle {
     from {
       transform: scale(1.08);
+    }
+  }
+  @keyframes eq {
+    0%,
+    100% {
+      transform: scaleY(0.35);
+    }
+    50% {
+      transform: scaleY(1);
     }
   }
   @keyframes unmask {
