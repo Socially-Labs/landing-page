@@ -65,15 +65,20 @@ function createTrack(src: string): Engine {
 
 /* ---------- The sea, made in the browser ---------- */
 
-const SEA_VOLUME = 0.5;
+/*
+ * Tuned for laptop speakers, which play little below 250 Hz: the surf is a band of noise around
+ * 900 Hz and the strings sit in the middle register, over a soft bass. Rendered offline this
+ * comes to about -16 dBFS with peaks near 0.6.
+ */
+const SEA_VOLUME = 0.8;
 /** Seconds for the volume to get most of the way to its target (about a third of the fade) */
 const SEA_EASE = 0.4;
-/** Low strings moving through D minor: Dm, B♭, F, C. Root, fifth and third of each, in Hz. */
+/** D minor, moving Dm, B♭, F, C. A bass note and three string voices for each, in Hz. */
 const CHORDS = [
-  [73.42, 110, 174.61],
-  [58.27, 87.31, 146.83],
-  [87.31, 130.81, 220],
-  [65.41, 98, 164.81],
+  { bass: 146.83, voices: [293.66, 349.23, 440] },
+  { bass: 116.54, voices: [293.66, 349.23, 466.16] },
+  { bass: 174.61, voices: [261.63, 349.23, 440] },
+  { bass: 130.81, voices: [261.63, 329.63, 392] },
 ];
 const CHORD_MS = 8000;
 
@@ -83,54 +88,58 @@ function createSea(): Engine {
   master.gain.value = 0;
   master.connect(ctx.destination);
 
-  // Surf: four seconds of brown noise on a loop, low-passed and swelling every eleven seconds.
+  // Surf: four seconds of noise on a loop, banded around 900 Hz, swelling every ten seconds.
   const buffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
   const samples = buffer.getChannelData(0);
-  let last = 0;
-  for (let i = 0; i < samples.length; i++) {
-    last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
-    samples[i] = last * 3.5;
-  }
+  for (let i = 0; i < samples.length; i++) samples[i] = Math.random() * 2 - 1;
   const surf = ctx.createBufferSource();
   surf.buffer = buffer;
   surf.loop = true;
   const surfTone = ctx.createBiquadFilter();
-  surfTone.type = "lowpass";
-  surfTone.frequency.value = 600;
+  surfTone.type = "bandpass";
+  surfTone.frequency.value = 900;
+  surfTone.Q.value = 0.5;
   const swell = ctx.createGain();
-  swell.gain.value = 0.25;
+  swell.gain.value = 0.22;
   const tide = ctx.createOscillator();
-  tide.frequency.value = 0.09;
+  tide.frequency.value = 0.1;
   const tideDepth = ctx.createGain();
-  tideDepth.gain.value = 0.18;
+  tideDepth.gain.value = 0.154;
   tide.connect(tideDepth).connect(swell.gain);
   surf.connect(surfTone).connect(swell).connect(master);
 
-  // Strings: three soft saw voices through a dark filter, gliding between chords.
+  // Strings: three soft triangle voices through a warm filter, and a sine bass under them.
   const stringTone = ctx.createBiquadFilter();
   stringTone.type = "lowpass";
-  stringTone.frequency.value = 520;
+  stringTone.frequency.value = 2200;
   const strings = ctx.createGain();
-  strings.gain.value = 0.04;
+  strings.gain.value = 0.16;
   stringTone.connect(strings).connect(master);
-  const voices = CHORDS[0].map((frequency, i) => {
+  const voices = CHORDS[0].voices.map((frequency, i) => {
     const voice = ctx.createOscillator();
-    voice.type = "sawtooth";
+    voice.type = "triangle";
     voice.frequency.value = frequency;
-    voice.detune.value = (i - 1) * 6;
+    voice.detune.value = (i - 1) * 5;
     voice.connect(stringTone);
     return voice;
   });
+  const bass = ctx.createOscillator();
+  bass.frequency.value = CHORDS[0].bass;
+  const bassLevel = ctx.createGain();
+  bassLevel.gain.value = 0.12;
+  bass.connect(bassLevel).connect(master);
 
   let chord = 0;
   const chords = setInterval(() => {
     chord = (chord + 1) % CHORDS.length;
+    const next = CHORDS[chord];
     voices.forEach((voice, i) =>
-      voice.frequency.setTargetAtTime(CHORDS[chord][i], ctx.currentTime, 1.5),
+      voice.frequency.setTargetAtTime(next.voices[i], ctx.currentTime, 1.5),
     );
+    bass.frequency.setTargetAtTime(next.bass, ctx.currentTime, 1.5);
   }, CHORD_MS);
 
-  [surf, tide, ...voices].forEach((node) => node.start());
+  [surf, tide, bass, ...voices].forEach((node) => node.start());
 
   let sleep: ReturnType<typeof setTimeout> | undefined;
   return {
