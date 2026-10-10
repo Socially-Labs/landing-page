@@ -3,9 +3,16 @@
 import { VolumeX } from "lucide-react";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 
-const VOLUME = 0.35;
-const FADE_MS = 1200;
 const STORAGE_KEY = "socially-sound";
+
+/** What the button drives: a music file, or the sea made in the browser when there's none. */
+type Engine = {
+  start: () => Promise<void>;
+  stop: () => void;
+  pause: () => void;
+  resume: () => void;
+  dispose: () => void;
+};
 
 /** Saves the visitor's choice; storage can be unavailable, which just means it isn't kept. */
 function remember(choice: "on" | "off") {
@@ -14,13 +21,18 @@ function remember(choice: "on" | "off") {
   } catch {}
 }
 
+/* ---------- A music file, looped ---------- */
+
+const TRACK_VOLUME = 0.35;
+const FADE_MS = 1200;
+
 /** Ramps an audio element's volume, then calls `done`. Returns a cancel function. */
 function fade(audio: HTMLAudioElement, to: number, done?: () => void) {
   const from = audio.volume;
-  const start = performance.now();
+  const begin = performance.now();
   let frame = 0;
   const step = (now: number) => {
-    const t = Math.min((now - start) / FADE_MS, 1);
+    const t = Math.min((now - begin) / FADE_MS, 1);
     audio.volume = from + (to - from) * t;
     if (t < 1) frame = requestAnimationFrame(step);
     else done?.();
@@ -29,42 +41,148 @@ function fade(audio: HTMLAudioElement, to: number, done?: () => void) {
   return () => cancelAnimationFrame(frame);
 }
 
+function createTrack(src: string): Engine {
+  const audio = Object.assign(new Audio(src), { loop: true, volume: 0 });
+  let cancel = () => {};
+  return {
+    start: async () => {
+      cancel();
+      await audio.play();
+      cancel = fade(audio, TRACK_VOLUME);
+    },
+    stop: () => {
+      cancel();
+      cancel = fade(audio, 0, () => audio.pause());
+    },
+    pause: () => audio.pause(),
+    resume: () => void audio.play().catch(() => {}),
+    dispose: () => {
+      cancel();
+      audio.pause();
+    },
+  };
+}
+
+/* ---------- The sea, made in the browser ---------- */
+
+const SEA_VOLUME = 0.5;
+/** Seconds for the volume to get most of the way to its target (about a third of the fade) */
+const SEA_EASE = 0.4;
+/** Low strings moving through D minor: Dm, B♭, F, C. Root, fifth and third of each, in Hz. */
+const CHORDS = [
+  [73.42, 110, 174.61],
+  [58.27, 87.31, 146.83],
+  [87.31, 130.81, 220],
+  [65.41, 98, 164.81],
+];
+const CHORD_MS = 8000;
+
+function createSea(): Engine {
+  const ctx = new AudioContext();
+  const master = ctx.createGain();
+  master.gain.value = 0;
+  master.connect(ctx.destination);
+
+  // Surf: four seconds of brown noise on a loop, low-passed and swelling every eleven seconds.
+  const buffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
+  const samples = buffer.getChannelData(0);
+  let last = 0;
+  for (let i = 0; i < samples.length; i++) {
+    last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+    samples[i] = last * 3.5;
+  }
+  const surf = ctx.createBufferSource();
+  surf.buffer = buffer;
+  surf.loop = true;
+  const surfTone = ctx.createBiquadFilter();
+  surfTone.type = "lowpass";
+  surfTone.frequency.value = 600;
+  const swell = ctx.createGain();
+  swell.gain.value = 0.25;
+  const tide = ctx.createOscillator();
+  tide.frequency.value = 0.09;
+  const tideDepth = ctx.createGain();
+  tideDepth.gain.value = 0.18;
+  tide.connect(tideDepth).connect(swell.gain);
+  surf.connect(surfTone).connect(swell).connect(master);
+
+  // Strings: three soft saw voices through a dark filter, gliding between chords.
+  const stringTone = ctx.createBiquadFilter();
+  stringTone.type = "lowpass";
+  stringTone.frequency.value = 520;
+  const strings = ctx.createGain();
+  strings.gain.value = 0.04;
+  stringTone.connect(strings).connect(master);
+  const voices = CHORDS[0].map((frequency, i) => {
+    const voice = ctx.createOscillator();
+    voice.type = "sawtooth";
+    voice.frequency.value = frequency;
+    voice.detune.value = (i - 1) * 6;
+    voice.connect(stringTone);
+    return voice;
+  });
+
+  let chord = 0;
+  const chords = setInterval(() => {
+    chord = (chord + 1) % CHORDS.length;
+    voices.forEach((voice, i) =>
+      voice.frequency.setTargetAtTime(CHORDS[chord][i], ctx.currentTime, 1.5),
+    );
+  }, CHORD_MS);
+
+  [surf, tide, ...voices].forEach((node) => node.start());
+
+  let sleep: ReturnType<typeof setTimeout> | undefined;
+  return {
+    start: async () => {
+      clearTimeout(sleep);
+      await ctx.resume();
+      master.gain.setTargetAtTime(SEA_VOLUME, ctx.currentTime, SEA_EASE);
+    },
+    stop: () => {
+      master.gain.setTargetAtTime(0, ctx.currentTime, SEA_EASE / 1.5);
+      sleep = setTimeout(() => void ctx.suspend(), 1500);
+    },
+    pause: () => void ctx.suspend(),
+    resume: () => void ctx.resume(),
+    dispose: () => {
+      clearInterval(chords);
+      clearTimeout(sleep);
+      void ctx.close();
+    },
+  };
+}
+
+/* ---------- The button ---------- */
+
 /**
- * Background music, off until the visitor turns it on. The file loads on the first click,
- * plays looped at a gentle volume, fades in and out, and pauses while the tab is hidden.
- * A visitor who left it on gets it back on their first click or key press next time.
+ * Sound for the site, off until the visitor turns it on. It plays `src` when there is one,
+ * and the sea made in the browser when there isn't. Nothing loads until the first click; it
+ * fades in and out, and pauses while the tab is hidden. A visitor who left it on gets it back
+ * on their first click or key press next time.
  */
-export function SoundToggle({ src }: { src: string }) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const cancelFade = useRef<() => void>(() => {});
+export function SoundToggle({ src }: { src?: string }) {
+  const engine = useRef<Engine | null>(null);
   const [on, setOn] = useState(false);
 
   const start = () => {
-    audioRef.current ??= Object.assign(new Audio(src), { loop: true, volume: 0 });
-    const audio = audioRef.current;
-    cancelFade.current();
-    audio
-      .play()
+    engine.current ??= src ? createTrack(src) : createSea();
+    engine.current
+      .start()
       .then(() => {
         setOn(true);
         remember("on");
-        cancelFade.current = fade(audio, VOLUME);
       })
       .catch(() => setOn(false));
   };
 
   const stop = () => {
-    const audio = audioRef.current;
     setOn(false);
     remember("off");
-    if (!audio) return;
-    cancelFade.current();
-    cancelFade.current = fade(audio, 0, () => audio.pause());
+    engine.current?.stop();
   };
 
-  const toggle = () => (on ? stop() : start());
-
-  // Resume for visitors who left sound on, once they interact (browsers need a gesture).
+  // Browsers need a gesture before playing sound, so a returning visitor's first one counts.
   const resume = useEffectEvent(() => start());
   useEffect(() => {
     let wanted = false;
@@ -83,25 +201,24 @@ export function SoundToggle({ src }: { src: string }) {
 
   // Quiet while the tab is in the background.
   useEffect(() => {
+    if (!on) return;
     const onVisibility = () => {
-      const audio = audioRef.current;
-      if (!audio || !on) return;
-      if (document.hidden) audio.pause();
-      else void audio.play().catch(() => {});
+      if (document.hidden) engine.current?.pause();
+      else engine.current?.resume();
     };
     document.addEventListener("visibilitychange", onVisibility);
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, [on]);
 
-  useEffect(() => () => audioRef.current?.pause(), []);
+  useEffect(() => () => engine.current?.dispose(), []);
 
   return (
     <button
       type="button"
-      onClick={toggle}
+      onClick={on ? stop : start}
       aria-pressed={on}
-      aria-label={on ? "Turn music off" : "Turn music on"}
-      title={on ? "Music off" : "Music on"}
+      aria-label={on ? "Turn sound off" : "Turn sound on"}
+      title={on ? "Sound off" : "Sound on"}
       className="fixed right-5 bottom-5 z-50 grid size-12 place-items-center rounded-full bg-white/90 text-brass-deep shadow-soft ring-1 ring-brass/50 backdrop-blur transition-colors hover:bg-white hover:ring-brass"
     >
       {on ? (

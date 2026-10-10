@@ -14,7 +14,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SoundToggle } from "@/components/sound-toggle";
 
-/** Drop a licensed track here to turn on the music button. */
+/** A licensed track dropped here replaces the sea the sound button plays by default. */
 const THEME = "/audio/theme.mp3";
 
 export default function Home() {
@@ -36,7 +36,7 @@ export default function Home() {
         <FinalCta />
       </main>
       <SiteFooter />
-      {hasTheme && <SoundToggle src={THEME} />}
+      <SoundToggle src={hasTheme ? THEME : undefined} />
     </>
   );
 }
