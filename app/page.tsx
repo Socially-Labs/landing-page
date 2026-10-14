@@ -63,15 +63,14 @@ export default function Home() {
             <p className="eyebrow">
               <span className="status-dot" /> SOCIAL TRADING ON SOLANA
             </p>
-            <h1 id="hero-title">
-              Meet your
-              <br />
-              Captain<span className="soft-period">.</span>
+            <h1 id="hero-title" className="hero-statement">
+              The chart tells you where<span className="soft-period">.</span>{" "}
+              The Captain tells you why<span className="soft-period">.</span>
             </h1>
             <p className="hero-description">
-              Pick a Captain. Join the Crew.
+              Choose a Captain. Review the risk.
               <br />
-              Explore trading on Solana.
+              Ride along.
             </p>
             <EarlyAccessForm />
             <p className="hero-note">

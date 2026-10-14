@@ -21,12 +21,13 @@ const editorial = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://socially.trade"),
-  title: "Socially — Meet your Captain. Join the Crew.",
+  title: "Socially — The Captain tells you why",
   description:
-    "Discover Captains, explore strategies, and follow your Crew portfolio. Join the early-access list for Socially on Android.",
+    "A chart tells you where. A Captain tells you why. Discover Solana strategies, review the risk, and follow your Crew portfolio. Join the early-access list.",
   openGraph: {
-    title: "Socially — Join the voyage",
-    description: "Pick a Captain. Join the Crew. Explore trading on Solana.",
+    title: "Socially — The chart tells you where. The Captain tells why.",
+    description:
+      "Pick a Captain. Join the Crew. Explore trading on Solana with the person, not just the positions.",
     images: [{ url: "/images/coastal-harbor.webp", width: 1536, height: 1024 }],
   },
 };
