@@ -2,6 +2,16 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
+const geist = localFont({
+  src: [
+    { path: "../public/fonts/Geist-Regular.woff2", weight: "400" },
+    { path: "../public/fonts/Geist-Medium.woff2", weight: "500" },
+    { path: "../public/fonts/Geist-Bold.woff2", weight: "700" },
+  ],
+  variable: "--font-geist",
+  display: "swap",
+});
+
 const inter = localFont({
   src: [
     { path: "../public/fonts/Inter-Regular.ttf", weight: "400" },
@@ -36,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${editorial.variable} antialiased`}
+      className={`${inter.variable} ${editorial.variable} ${geist.variable} antialiased`}
     >
       <body>{children}</body>
     </html>

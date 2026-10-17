@@ -9,7 +9,13 @@ type State = {
   message?: string;
 };
 
-export function EarlyAccessForm() {
+export function EarlyAccessForm({
+  buttonLabel = "Get early access",
+  caption = "Get early access to the first vaults.",
+}: {
+  buttonLabel?: string;
+  caption?: string;
+} = {}) {
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
   const [state, setState] = useState<State>({ status: "idle" });
@@ -63,12 +69,7 @@ export function EarlyAccessForm() {
           <span>You’re on the list. Welcome aboard.</span>
         </div>
       ) : (
-        <form
-          className="early-access-form"
-          onSubmit={submit}
-          noValidate
-          aria-busy={pending}
-        >
+        <form className="early-access-form" onSubmit={submit} noValidate aria-busy={pending}>
           <label htmlFor={`${id}-email`} className="sr-only">
             Email address
           </label>
@@ -100,7 +101,7 @@ export function EarlyAccessForm() {
             />
           </div>
           <button type="submit" disabled={pending}>
-            {pending ? "Joining…" : "Get early access"}
+            {pending ? "Joining…" : buttonLabel}
             <Icon name="arrow" />
           </button>
         </form>
@@ -115,7 +116,7 @@ export function EarlyAccessForm() {
           ? state.message
           : state.status === "success"
             ? "We’ll be in touch when the first vaults open."
-            : "Get early access to the first vaults."}
+            : caption}
       </p>
     </div>
   );
