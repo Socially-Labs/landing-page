@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model EarlyAccessSignup {
+  id        BigInt   @id @default(autoincrement())
+  email     String   @unique
+  source    String   @default("mobile-landing")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("early_access_signups")
+}
